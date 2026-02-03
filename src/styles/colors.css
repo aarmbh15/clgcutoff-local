@@ -1,0 +1,46 @@
+/* Colors & Theming */
+/* Light Mode */
+:root {
+  --background-color: #ffffff;
+  --modal-background-color: #e0e0e0;
+  --form-background-color: #ffffff;
+  --text-color: #1e1e1e;
+  --text-sub-color: #303030;
+  --border-color: #a0a0a0;
+  --separator-color: #d0d0d0;
+
+  --hover-color: rgba(255, 255, 255, 0.3);
+
+  --color-white_black: #ffffff;
+  --color-black_white: #050505;
+
+  --table-header-color: #e7e7e7;
+
+  --disabled-color: #d2d2d2;
+  --disabled-text-color: #a0a0a0;
+
+  --accent-color: #e67817;
+  --accent-dark-color: #d76f14;
+}
+
+/* Dark Mode */
+.dark {
+  --background-color: #181818;
+  --modal-background-color: #202020;
+  --form-background-color: #212121;
+  --text-color: #eaeaea;
+  --text-sub-color: #c2c2c2;
+  --border-color: #323232;
+  --separator-color: #444444;
+
+  --hover-color: rgba(255, 255, 255, 0.3);
+
+  --color-white_black: #050505;
+  --color-black_white: ##ffffff;
+
+  --table-header-color: #363636;
+
+  --disabled-color: #363636;
+  --disabled-text-color: rgba(255, 255, 255, 0.3);
+}
+/* --------------- */

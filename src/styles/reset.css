@@ -1,0 +1,87 @@
+:root {
+  --font-roboto: "Roboto", sans-serif;
+  --font-poppins: "Poppins", sans-serif;
+}
+
+/* Reset User Agent Styles */
+*,
+*::before,
+*::after {
+  font-family: var(--font-roboto), sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+/*CSS Reset & Inherit Font Family */
+input,
+textarea,
+button,
+p,
+span {
+  font-family: var(--font-roboto), sans-serif;
+}
+
+::placeholder {
+  font-family: var(--font-roboto), sans-serif;
+}
+
+body {
+  font-family: var(--font-roboto), sans-serif;
+}
+
+/* -------------------------------- */
+
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden !important;
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* AutoComplete Input Styles */
+
+/* For Chrome, Safari, and Edge */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--text-color) !important;
+  -webkit-box-shadow: 0 0 0px 1000px var(--color-white_black) inset !important;
+  font-size: 14px !important;
+  transition: background-color 5000s ease-in-out 0s !important;
+}
+
+/* For Firefox */
+input:-moz-autofill,
+input:-moz-autofill:hover,
+input:-moz-autofill:focus,
+textarea:-moz-autofill,
+textarea:-moz-autofill:hover,
+textarea:-moz-autofill:focus,
+select:-moz-autofill,
+select:-moz-autofill:hover,
+select:-moz-autofill:focus {
+  -moz-text-fill-color: var(--text-color) !important;
+  box-shadow: 0 0 0px 1000px var(--color-white_black) inset !important;
+  font-size: 14px !important;
+  transition: background-color 5000s ease-in-out 0s !important;
+}
+
+/* For Internet Explorer and Edge (Legacy) */
+input:-ms-input-placeholder,
+textarea:-ms-input-placeholder,
+select:-ms-input-placeholder {
+  color: var(--text-color) !important;
+  box-shadow: 0 0 0px 1000px var(--color-white_black) inset !important;
+  font-size: 14px !important;
+  transition: background-color 5000s ease-in-out 0s !important;
+}

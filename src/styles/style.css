@@ -1,0 +1,219 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* -------------------------------- */
+
+/* Reusable Global Styles */
+@layer components {
+  .componentsBox {
+    @apply w-full border border-color-border focus-within:border-color-accent bg-color-white_black rounded px-4 py-3;
+  }
+
+  .defaultTextStyles {
+    @apply text-color-text font-semibold text-base;
+  }
+}
+
+@keyframes bubble-expand {
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 1;
+  }
+  100% {
+    width: 200vw;
+    height: 200vw;
+    opacity: 0.8;
+  }
+}
+
+h1,
+h2,
+h3,
+.title {
+  font-family: var(--font-poppins) !important;
+  letter-spacing: 0.3px;
+}
+
+.poppinsFont {
+  font-family: var(--font-poppins) !important;
+}
+
+.animate-bubble-expand {
+  animation: bubble-expand 0.7s ease-in-out forwards;
+}
+
+input[type="checkbox"] {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--accent-dark-color);
+  border-radius: 4px;
+  position: relative;
+  cursor: pointer;
+}
+
+input[type="checkbox"]:checked {
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
+}
+
+input[type="checkbox"]:checked::after {
+  content: "✔";
+  color: white;
+  font-size: 14px;
+  position: absolute;
+  top: 53%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* -------------------------- */
+
+/* All Scrollbar Style */
+/* *::-webkit-scrollbar {
+  width: 10px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 4px !important;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--accent-dark-color);
+  border-radius: 4px !important;
+  height: 70px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-dark-color);
+  cursor: pointer;
+} */
+/* Global Scrollbar */
+/* *::-webkit-scrollbar {
+  width: 5px;
+  height: 8px;
+} */
+:root {
+  --scrollbar-width: 4px;
+  --scrollbar-thumb-color: var(--accent-dark-color);
+  --scrollbar-thumb-hover: var(--accent-dark-color);
+  --scrollbar-track-color: transparent;
+}
+
+/* Default scrollbar for all scrollable elements */
+*::-webkit-scrollbar {
+  width: var(--scrollbar-width);
+  height: var(--scrollbar-width);
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--scrollbar-track-color);
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb-color);
+  border-radius: 9999px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+}
+
+
+
+/* Firefox support */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb-color) var(--scrollbar-track-color);
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* -------------------------------------------- */
+
+/* Loader ------------- */
+
+.loader {
+  width: 50px;
+  aspect-ratio: 1;
+  display: grid;
+  border: 4px solid #0000;
+  border-radius: 50%;
+  border-right-color: #e67817;
+  animation: l15 1s infinite linear;
+}
+.loader::before,
+.loader::after {
+  content: "";
+  grid-area: 1/1;
+  margin: 2px;
+  border: inherit;
+  border-radius: 50%;
+  animation: l15 2s infinite;
+}
+.loader::after {
+  margin: 8px;
+  animation-duration: 3s;
+}
+@keyframes l15 {
+  100% {
+    transform: rotate(1turn);
+  }
+}
+/* -------------------------- */
+
+.toastify_progressbar_color {
+  background: #fff !important;
+}
+
+.tableCheckboxStatic {
+  position: sticky;
+  left: 0;
+  z-index: 10;
+}
+
+/* @media (min-width: 768px) { */
+.tableActionStatic {
+  position: sticky;
+  right: -4px;
+  z-index: 10;
+}
+
+.tableStaticLeft {
+  position: sticky;
+  left: 0px;
+  z-index: 10;
+}
+/* } */
+
+/* Text Animation */
+.animated-new {
+  font-size: 14px;
+  font-weight: bold;
+  background: linear-gradient(90deg, #ff6ec4, #7873f5);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  display: inline-block;
+  animation: glowShrink 2s ease-in-out infinite;
+}
+
+@keyframes glowShrink {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 0.85;
+  }
+}
+
