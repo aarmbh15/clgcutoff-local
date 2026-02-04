@@ -73,10 +73,12 @@ export function UnlockPopover({
     if (type.includes("UG")) {
       return `Access All Round's Category and Quota-wise ${course} Cut-off (Rank/Marks) Details (NEET UG 2025) for your Selected College.`
     } else if (type.includes("PG")) {
-      return `Access All Rounds MD/MS/Diploma Cut-off Rank / Percentile / Marks Details (NEET PG ${
+      return `Access All Rounds MD/MS/Diploma Cut-off Rank / Marks / Percentile Details (NEET PG ${
   ["all", "br", "ka"].includes(stateCode?.toLowerCase() ?? "")
     ? " 2025 & 2024"
-    : "2024"
+    // : "2024"
+    //commented above one and added new one
+    : "2025 & 2024"
 })- Specialization, Category & Quota Wise for Your Selected College.`
     } else if (type.includes("SS")) {
       return `Access All Round's Specialization Wise DM/MCH/DNBSS Cut-off Rank/Marks Details (NEET SS 2024) for Your Selected College or Hospital.`
@@ -103,10 +105,11 @@ export function UnlockPopover({
     if (type.includes("UG")) {
       return `Access All Rounds of ${course} Cut-off (Rank/Marks) details (NEET UG 2025) for every college in ${location}, covering all categories and quotas across ${institution} institutions.`
     } else if (type.includes("PG")) {
-      return `Access All Round's of MD/MS/Diploma Cut-off Rank / Percentile / Marks Details (NEET PG ${
+      return `Access All Round's of MD/MS/Diploma Cut-off Rank / Marks / Percentile Details (NEET PG ${
   ["all", "br", "ka"].includes(stateCode?.toLowerCase() ?? "")
     ? " 2025 & 2024"
-    : "2024"
+    // : "2024"
+   : "2025 & 2024" 
 }) for every college in ${stateName}, covering all specialization, category, and quota across Government & Private institutions.`
     } else if (type.includes("SS")) {
       return `Access All Round's Specialization Wise DM/MCH/DNBSS Cut-off Rank/Marks Details (NEET SS 2024) for Your Selected College or Hospital.`

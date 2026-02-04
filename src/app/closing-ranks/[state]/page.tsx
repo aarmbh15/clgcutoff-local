@@ -65,7 +65,9 @@ const [isLoading,setIsLoading] = useState(false)
   const [statePaymentPopup, setStatePaymentPopup] = useState(false)
   const [paymentChecker, setPaymentChecker] = useState(false)
   const [statePurchaseMode, setStatePurchaseMode] = useState(false)
-  const currentYear = new Date().getFullYear()-1
+  //changes made on 3feb2026
+  // const currentYear = new Date().getFullYear()-1
+  const currentYear = new Date().getFullYear()
   const prevYear = currentYear - 1
   const [selectedInstituteType, setSelectedInstituteType] = useState<
     IOption | undefined
@@ -905,10 +907,11 @@ const showCollege =
                 {courseType?.toUpperCase().includes("UG")
                   ? `Access All Rounds of ${course} Cut-off (Rank/Marks) details (NEET UG 2025) for every college in ${stateCode?.toLowerCase() === "all" ? "MCC All India" : state}, covering all categories and quotas across ${stateCode?.toLowerCase() === "all" ? "Government & Deemed" : "Government & Private"} institutions.`
                   : courseType?.toUpperCase().includes("PG")
-                    ? `Access All Round's of MD/MS/Diploma Cut-off Rank / Percentile / Marks Details (NEET PG ${
+                    ? `Access All Round's of MD/MS/Diploma Cut-off Rank / Marks / Percentile Details (NEET PG ${
   ["all", "br", "ka"].includes(stateCode?.toLowerCase() ?? "")
     ? " 2025 & 2024"
-    : "2024"
+    // : "2024"
+    :"2025 & 2024"
 }) for every college in ${state}, covering all specialization, category, and quota across Government & Private institutions.`
                     : courseType?.toUpperCase().includes("SS")
                       ? `Access All Round's Specialization Wise DM/MCH/DNBSS Cut-off Rank/Marks Details (NEET SS 2024) for Your Selected College or Hospital.`
