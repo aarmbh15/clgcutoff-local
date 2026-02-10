@@ -66,7 +66,10 @@ const [isLoading,setIsLoading] = useState(false)
   const [paymentChecker, setPaymentChecker] = useState(false)
   const [statePurchaseMode, setStatePurchaseMode] = useState(false)
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   //changes made on 3feb2026
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
   // const currentYear = new Date().getFullYear()-1
