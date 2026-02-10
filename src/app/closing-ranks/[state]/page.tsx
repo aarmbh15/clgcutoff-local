@@ -65,13 +65,7 @@ const [isLoading,setIsLoading] = useState(false)
   const [statePaymentPopup, setStatePaymentPopup] = useState(false)
   const [paymentChecker, setPaymentChecker] = useState(false)
   const [statePurchaseMode, setStatePurchaseMode] = useState(false)
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
   //changes made on 3feb2026
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
   // const currentYear = new Date().getFullYear()-1
   const currentYear = new Date().getFullYear()
   const prevYear = currentYear - 1
@@ -916,7 +910,7 @@ const showCollege =
                     ? `Access All Round's of MD/MS/Diploma Cut-off Rank / Marks / Percentile Details (NEET PG ${
   ["all", "br", "ka"].includes(stateCode?.toLowerCase() ?? "")
     ? " 2025 & 2024"
-    // : "2024"
+    //: "2024"
     :"2025 & 2024"
 }) for every college in ${state}, covering all specialization, category, and quota across Government & Private institutions.`
                     : courseType?.toUpperCase().includes("SS")
@@ -995,4 +989,3 @@ const showCollege =
     </FELayout>
   )
 }
-
