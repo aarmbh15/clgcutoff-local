@@ -77,8 +77,12 @@ export function UnlockPopover({
   ["all", "br", "ka"].includes(stateCode?.toLowerCase() ?? "")
     ? " 2025 & 2024"
     // : "2024"
+<<<<<<< Updated upstream
     //commented above one and added new one
     : "2025 & 2024"
+=======
+   : "2025 & 2024" 
+>>>>>>> Stashed changes
 })- Specialization, Category & Quota Wise for Your Selected College.`
     } else if (type.includes("SS")) {
       return `Access All Round's Specialization Wise DM/MCH/DNBSS Cut-off Rank/Marks Details (NEET SS 2024) for Your Selected College or Hospital.`
