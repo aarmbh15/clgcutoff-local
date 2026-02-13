@@ -1,4 +1,3 @@
-
 "use client"
 
 import SearchAndSelect from "@/components/common/SearchAndSelect"
@@ -6,16 +5,14 @@ import { SignInPopup } from "@/components/common/popups/SignInPopup"
 import { Container } from "@/components/frontend/Container"
 import { FELayout } from "@/components/frontend/FELayout"
 import { useAppState } from "@/hooks/useAppState"
-import useFetch from "@/hooks/useFetch"
 import { IOption } from "@/types/GlobalTypes"
-import { autoComplete, clearReactHookFormValueAndStates, isEmpty } from "@/utils/utils"
+import { autoComplete, isEmpty } from "@/utils/utils"
 import { ArrowRight, MapPin, Search, Users } from "lucide-react"
 import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation"
 import React, { useEffect, useState, useCallback, useMemo } from "react"
 import { useForm } from "react-hook-form"
 
-// State list
 const STATES: { name: string; slug: string; code: string; popular?: boolean }[] = [
   { name: "All India", slug: "all-india", code: "all" },
   { name: "Andaman and Nicobar Islands", slug: "andaman-and-nicobar-islands", code: "AN" },
@@ -57,11 +54,10 @@ const STATES: { name: string; slug: string; code: string; popular?: boolean }[] 
   { name: "West Bengal", slug: "west-bengal", code: "WB" },
 ]
 
-const ALLOWED_PREDICTORS = ["NEET UG", "NEET PG", "NEET MDS", "AIAPGET (Ayurveda)",""]
+const ALLOWED_PREDICTORS = ["NEET UG", "NEET PG", "NEET MDS", "AIAPGET (Ayurveda)", ""]
 
 export default function ClosingRanks() {
   const [searchQuery, setSearchQuery] = useState("")
-  const [activeTab, setActiveTab] = useState<"all" | "popular">("all")
   const [selectedType, setSelectedType] = useState<IOption>()
   const [selectedCourse, setSelectedCourse] = useState<IOption>()
   const [predictorTypeList, setPredictorTypeList] = useState<IOption[]>([])
@@ -75,17 +71,16 @@ export default function ClosingRanks() {
   const { showToast } = useAppState()
   const { setValue, setError, clearErrors, control, formState: { errors } } = useForm()
 
+  const updateURL = useCallback((params: Record<string, string>, replace = true) => {
+    const query = new URLSearchParams(params).toString()
+    const url = `/closing-ranks?${query}`
+    if (replace) {
+      router.replace(url, { scroll: false })
+    } else {
+      router.push(url)
+    }
+  }, [router])
 
-const updateURL = useCallback((params: Record<string, string>, replace = true) => {
-  const query = new URLSearchParams(params).toString();
-  const url = `/closing-ranks?${query}`;
-  
-  if (replace) {
-    router.replace(url, { scroll: false });
-  } else {
-    router.push(url);
-  }
-}, [router]);
   // Fetch predictor types
   useEffect(() => {
     (async () => {
@@ -93,53 +88,43 @@ const updateURL = useCallback((params: Record<string, string>, replace = true) =
         const res = await fetch("/api/get-courses-types")
         const json = await res.json()
         if (Array.isArray(json?.data)) {
-          setPredictorTypeList(json.data.map((q: IOption) => ({ id: q.id, text: q.type })))
+          setPredictorTypeList(json.data.map((q: any) => ({ id: q.id, text: q.type })))
         }
-        //  const staticUGOptions = [
-        //   { id: "MBBS", text: "NEET UG-MBBS" },
-        //   { id: "BDS", text: "NEET UG-BDS" },
-        //   { id: "BAMS", text: "NEET UG-BAMS" },
-        //   { id: "BHMS", text: "NEET UG-BHMS" },
-        // ];
-
-        // const dynamicOptions = json.data.map((q: IOption) => ({
-        //   id: q.id,
-        //   text: q.type,
-        // }));
-        // const filterOp = dynamicOptions?.filter((d:IOption)=>d.type!=="NEET UG")
-
-        // setPredictorTypeList([...staticUGOptions, ...filterOp]);
       } catch (err) {
         console.error("Error fetching course types:", err)
       }
     })()
   }, [])
 
-  // Fetch courses by type
+  // Fetch courses by type (only when needed)
   const getCoursesByType = useCallback(async (type: string) => {
     setIsCourseLoading(true)
     try {
       const res = await fetch(`/api/get-courses?type=${encodeURIComponent(type)}`)
       const { data } = await res.json()
-      setCoursesList(Array.isArray(data) ? data.map((c: IOption) => ({ id: c.id, text: c.text })) : [])
+      setCoursesList(Array.isArray(data) ? data.map((c: any) => ({ id: c.id, text: c.text })) : [])
     } catch (err) {
       console.error("Error fetching courses:", err)
-    }finally{
-        setIsCourseLoading(false)
+    } finally {
+      setIsCourseLoading(false)
     }
   }, [])
 
-  // Filtered states (memoized)
-  const filteredStates = useMemo(() => {
-    const base = ALLOWED_PREDICTORS.includes(selectedType?.text || "") ? STATES : [STATES[0]]
-    return base.filter(
-      s =>
-        s.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
-        (activeTab === "all" || s.popular)
-    )
-  }, [selectedType, searchQuery, activeTab])
+  // Show states only when proper selections are made
+  const canShowStates = useMemo(() => {
+    if (!selectedType?.text) return false
+    if (selectedType.text === "NEET UG" && !selectedCourse?.text) return false
+    return true
+  }, [selectedType, selectedCourse])
 
-  // Helpers
+  // Filtered states
+  const filteredStates = useMemo(() => {
+    return STATES.filter(
+      s =>
+        s.name.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+  }, [searchQuery])
+
   const buildRedirectURL = (state: { name: string; code: string }) => {
     if (!selectedType?.text) return ""
     const courseParam = selectedType.text === "NEET UG" ? selectedCourse?.text || "" : ""
@@ -149,15 +134,13 @@ const updateURL = useCallback((params: Record<string, string>, replace = true) =
 
   const validateSelection = () => {
     if (!selectedType?.text) {
-      setError("courseType", { type: "manual", message: "Please select a Course Type" })
-      showToast("error", "Please select a Course Type")
-      updateURL({ courseType: "", course: "" })
+      setError("courseType", { type: "manual", message: "Please select Course Type" })
+      showToast("error", "Please select Course Type")
       return false
     }
     if (selectedType.text === "NEET UG" && !selectedCourse?.text) {
-      setError("course", { type: "manual", message: "Please select a Course" })
-      showToast("error", "Please select a Course")
-      updateURL({ courseType: selectedType.text, course: "" })
+      setError("course", { type: "manual", message: "Please select Course" })
+      showToast("error", "Please select Course")
       return false
     }
     return true
@@ -165,185 +148,203 @@ const updateURL = useCallback((params: Record<string, string>, replace = true) =
 
   return (
     <FELayout>
-      <section className="w-full px-2 py-10 bg-gradient-to-r from-yellow-50 to-emerald-50">
-        {/* <Container className="pb-10 pt-1 pc:mt-10 px-3 text-center max-w-3xl mx-auto">
+      <section className="w-full px-3 py-10 md:py-14 bg-gradient-to-br from-yellow-50 via-emerald-50 to-white">
+        <Container className="text-center">
           {selectedType?.text && (
-            <div className="inline-block rounded-full bg-yellow-100 px-4 py-1.5 text-sm font-medium text-yellow-800 border border-yellow-200 mb-4">
+            <div className="inline-block rounded-full bg-yellow-100 px-5 py-2 text-sm font-semibold text-yellow-800 border border-yellow-200 mb-6">
               {selectedType.text}
             </div>
           )}
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-color-table-header">
-            Medical College Closing Ranks
+
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-5 md:mb-6 text-[#165dc4] leading-tight">
+            Closing Ranks for<br className="hidden md:block" /> Medical, Dental & Ayurveda
           </h1>
-          <p className="text-gray-600 md:text-lg mb-8">
-            Explore NEET closing ranks for medical colleges across India.
+
+          <p className="text-gray-700 md:text-lg max-w-4xl mx-auto leading-relaxed">
+            Check college-wise NEET closing ranks, cut-offs and last round allotment details from All India & State counselling.
           </p>
-        </Container> */}
-<Container className="pt-6 md:pt-0 px-2 text-center mx-auto">
-  {selectedType?.text && (
-    <div className="inline-block rounded-full bg-yellow-100 px-4 py-1.5 text-sm font-medium text-yellow-800 border border-yellow-200 mb-5">
-      {selectedType.text}
-    </div>
-  )}
-{/* 
-  <h1 className="text-4xl md:text-6xl font-extrabold mb-6 text-[#165dc4] leading-tight">
-    Closing Ranks for Medical, <br className="hidden md:block" />
-    Dental & Ayurveda
-  </h1> */}
-
-<h1 className="text-4xl md:text-6xl font-extrabold mb-6 text-[#165dc4]">
-  <span className="md:block inline mb-2 ">Closing Ranks for Medical,</span>
-  <span className="md:block inline">Dental & Ayurveda Courses</span>
-</h1>
-
-{/* <h1 className="text-4xl md:text-6xl font-extrabold mb-6 text-[#165dc4] leading-tight">
-  <span className="block mb-1">Closing Ranks for Medical,</span>
-  <span className="block">Dental & Ayurveda</span>
-</h1> */}
-
-  <p className="text-gray-600 md:text-lg max-w-5xl mx-auto leading-relaxed">
-    Explore college-wise cut-offs and closing ranks from All India and State
-    counselling for all rounds across UG, PG & Super-Specialization.
-  </p>
-</Container>
-
-
+        </Container>
       </section>
 
-      <section className="w-full px-2 pt-4 pb-10">
+      <section className="w-full px-3 py-8 md:py-10">
         <Container>
-          {/* Tabs */}
-          <div className="flex justify-between items-center mb-4">
-            <div>
-              <h2 className="text-2xl font-bold">States & Union Territories</h2>
-              <p className="text-gray-500">Select a region to view detailed closing ranks</p>
-            </div>
-            {/* <div className="flex gap-3">
-              {["all", "popular"].map(tab => (
-                <button
-                  key={tab}
-                  onClick={() => setActiveTab(tab as "all" | "popular")}
-                  className={`px-4 py-2 rounded-full text-sm font-medium ${
-                    activeTab === tab ? "bg-yellow-500 text-white" : "bg-gray-100 hover:bg-gray-200"
-                  }`}
-                >
-                  {tab === "all" ? "All States" : "Popular States"}
-                </button>
-              ))}
-            </div> */}
-          </div>
+          {/* Selection Area */}
+          <div className="mb-10">
+            <h2 className="text-2xl md:text-3xl font-bold mb-2 text-gray-900">
+              Find Your College Closing Ranks
+            </h2>
+            <p className="text-gray-600 mb-6 md:mb-8">
+              Select course type {selectedType?.text === "NEET UG" ? "and specific course " : ""}to see available states
+            </p>
 
-          {/* Filters */}
-          <div className="flex flex-col md:flex-row justify-between gap-4 mb-4">
-            <div className="flex flex-col md:flex-row gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 md:gap-6 max-w-4xl">
+              {/* Course Type */}
               <SearchAndSelect
                 name="courseType"
-                  setValue={setValue}
-                  placeholder="Select Course Type"
+                setValue={setValue}
+                placeholder="Select Course Type"
                 label="Course Type"
                 value={selectedType}
                 onChange={({ selectedValue }) => {
                   setSelectedType(selectedValue)
                   setSelectedCourse(undefined)
                   clearErrors("courseType")
-                  if (selectedValue.text === "NEET UG") getCoursesByType(selectedValue.text)
-                  updateURL({ courseType: selectedValue.text })
+                  clearErrors("course")
+                  if (selectedValue?.text === "NEET UG") {
+                    getCoursesByType(selectedValue.text)
+                  }
+                  updateURL({ courseType: selectedValue?.text || "", course: "" })
                 }}
                 control={control}
                 defaultOption={{ id: courseType || "", text: courseType || "" }}
                 options={predictorTypeList}
                 searchAPI={(txt, set) => autoComplete(txt, predictorTypeList, set)}
-                wrapperClass="md:max-w-[200px] w-full"
+                wrapperClass="w-full"
                 errors={errors}
               />
+
+              {/* Course – only for NEET UG */}
               {selectedType?.text === "NEET UG" && (
                 <SearchAndSelect
-                  setValue={setValue}
+                setValue={setValue}
                   name="course"
-                  label="Select Course"
-                   placeholder="Select Course"
+                  label="Course"
+                  placeholder="Select Course (MBBS / BDS / BAMS...)"
                   value={selectedCourse}
                   onChange={({ selectedValue }) => {
                     setSelectedCourse(selectedValue)
                     clearErrors("course")
-                    updateURL({ courseType: selectedType?.text || "", course: selectedValue.text })
+                    updateURL({
+                      courseType: selectedType?.text || "",
+                      course: selectedValue?.text || ""
+                    })
                   }}
                   control={control}
                   defaultOption={{ id: course || "", text: course || "" }}
                   options={coursesList}
-                  loading = {isCourseLoading}
-                  // disabled={isEmpty(coursesList)}
+                  loading={isCourseLoading}
                   searchAPI={(txt, set) => autoComplete(txt, coursesList, set)}
+                  wrapperClass="w-full"
                   errors={errors}
-                    wrapperClass="md:max-w-[200px] w-full"
                 />
               )}
             </div>
-            <div className="relative md:max-w-[500px] w-full">
-              <div className="font-medium">Search State</div>
-              <Search className="absolute left-3 top-10 text-gray-400 h-5 w-5" />
-              <input
-                type="text"
-                placeholder="States or Union Territories..."
-                className="pl-10 pr-4 py-3 rounded-lg outline-none border focus:ring-1 focus:ring-yellow-500 w-full"
-                value={searchQuery}
-                onChange={e => setSearchQuery(e.target.value)}
-              />
-            </div>
           </div>
 
-          {/* States Grid */}
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {filteredStates.map(state => (
-              <Link
-                key={state.slug}
-                href={buildRedirectURL(state)}
-                onClick={e => !validateSelection() && e.preventDefault()}
-                className="group bg-white rounded-xl border p-5 hover:shadow-md hover:border-yellow-300 flex flex-col"
-              >
-                <div className="flex justify-between mb-2">
-                  <div className="flex items-center gap-2">
-                    <MapPin className="h-4 w-4 text-yellow-500" />
-                    <h3 className="font-medium text-gray-900 group-hover:text-yellow-600">
-                      {state.name}
-                    </h3>
-                  </div>
-                  {state.popular && (
-                    <span className="bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded-full">Popular</span>
-                  )}
+          {/* Conditional States Section */}
+          {canShowStates ? (
+            <>
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-900">
+                    States & Union Territories
+                  </h2>
+                  <p className="text-gray-600">
+                    Choose a region to view {selectedType?.text} closing ranks
+                    {selectedType?.text === "NEET UG" ? ` (${selectedCourse?.text})` : ""}
+                  </p>
                 </div>
-                <p className="text-sm text-gray-500 mb-3">{state.name} - {selectedType?.text} Colleges List</p>
-                <div className="mt-auto flex items-center text-sm text-yellow-600 font-medium">
-                  View Closing Ranks <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition" />
-                </div>
-              </Link>
-            ))}
-          </div>
+              </div>
 
-          {!filteredStates.length && (
-            <div className="text-center py-12">
-              <p className="text-gray-500 text-lg">No states found matching your search.</p>
-              <button onClick={() => setSearchQuery("")} className="mt-4 text-yellow-600 hover:text-yellow-700">
-                Clear search
-              </button>
+              {/* Search */}
+              <div className="relative max-w-md mb-8">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
+                <input
+                  type="text"
+                  placeholder="Search state or union territory..."
+                  className="w-full pl-12 pr-4 py-3.5 rounded-xl border border-gray-300 focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 outline-none transition"
+                  value={searchQuery}
+                  onChange={e => setSearchQuery(e.target.value)}
+                />
+              </div>
+
+              {/* Grid */}
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 md:gap-6">
+                {filteredStates.map(state => (
+                  <Link
+                    key={state.slug}
+                    href={buildRedirectURL(state)}
+                    onClick={e => !validateSelection() && e.preventDefault()}
+                    className="group bg-white rounded-2xl border border-gray-200 p-6 hover:shadow-xl hover:border-yellow-400 transition-all duration-200 flex flex-col h-full"
+                  >
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex items-center gap-3">
+                        <MapPin className="h-5 w-5 text-yellow-600 flex-shrink-0 mt-0.5" />
+                        <h3 className="font-semibold text-lg text-gray-900 group-hover:text-yellow-700">
+                          {state.name}
+                        </h3>
+                      </div>
+                      {state.popular && (
+                        <span className="bg-yellow-100 text-yellow-800 text-xs px-3 py-1 rounded-full font-medium">
+                          Popular
+                        </span>
+                      )}
+                    </div>
+
+                    <p className="text-gray-600 text-sm mb-5 flex-1">
+                      View {selectedType?.text} closing ranks • {state.name === "All India" ? "All India Quota" : "State Counselling"}
+                    </p>
+
+                    <div className="flex items-center text-yellow-600 font-medium text-sm group-hover:text-yellow-700">
+                      View Details <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1.5" />
+                    </div>
+                  </Link>
+                ))}
+              </div>
+
+              {!filteredStates.length && (
+                <div className="text-center py-16 bg-gray-50 rounded-2xl border border-dashed border-gray-300">
+                  <p className="text-gray-600 text-lg font-medium">
+                    No states match <span className="font-semibold">{searchQuery}</span>
+                  </p>
+                  <button
+                    onClick={() => setSearchQuery("")}
+                    className="mt-4 text-yellow-600 hover:text-yellow-700 font-medium"
+                  >
+                    Clear search
+                  </button>
+                </div>
+              )}
+            </>
+          ) : (
+            /* Guidance when nothing selected */
+            <div className="text-center py-16 px-6 bg-gradient-to-b from-gray-50 to-white rounded-2xl border border-dashed border-gray-300">
+              <div className="max-w-lg mx-auto">
+                <div className="text-6xl mb-6">🎯</div>
+                <h3 className="text-2xl font-bold text-gray-800 mb-4">
+                  Ready to explore closing ranks?
+                </h3>
+                <p className="text-gray-600 text-lg leading-relaxed mb-6">
+                  Start by selecting a <strong>Course Type</strong> above 
+                  {selectedType?.text === "NEET UG" ? " and then choose a specific course" : ""}.
+                </p>
+                <p className="text-gray-500">
+                  Popular options: NEET UG, NEET PG, NEET MDS, AIAPGET (Ayurveda)...
+                </p>
+              </div>
             </div>
           )}
 
           {/* CTA */}
-          <div className="mt-16 border border-color-accent rounded-xl p-6 flex flex-col md:flex-row justify-between items-center gap-6">
-            <div>
-              <h3 className="text-xl font-bold mb-2">Need personalized guidance?</h3>
-              <p className="text-gray-600">Connect with our counselors for tailored college recommendations.</p>
+          <div className="mt-16 md:mt-20 border border-yellow-200 bg-yellow-50/40 rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="text-center md:text-left">
+              <h3 className="text-xl md:text-2xl font-bold mb-3 text-gray-900">
+                Need help choosing the right college?
+              </h3>
+              <p className="text-gray-700">
+                Get personalized guidance from expert counsellors.
+              </p>
             </div>
             <Link
               href="https://wa.me/919028009835"
-              className="bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white px-6 py-3 rounded-lg shadow-md flex items-center gap-2"
+              className="bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white px-7 py-4 rounded-xl shadow-lg flex items-center gap-3 font-semibold whitespace-nowrap transition"
             >
-              <Users className="h-5 w-5" /> Book Counselling Session
+              <Users className="h-5 w-5" /> Book Free Counselling
             </Link>
           </div>
         </Container>
       </section>
+
       <SignInPopup />
     </FELayout>
   )
