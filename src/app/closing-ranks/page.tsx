@@ -12,6 +12,7 @@ import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation"
 import React, { useEffect, useState, useCallback, useMemo } from "react"
 import { useForm } from "react-hook-form"
+import Breadcrumbs from "@/components/common/Breadcrumbs";
 
 const STATES: { name: string; slug: string; code: string; popular?: boolean }[] = [
   { name: "All India", slug: "all-india", code: "all" },
@@ -149,6 +150,9 @@ export default function ClosingRanks() {
   return (
     <FELayout>
       <section className="w-full px-3 py-10 md:py-14 bg-gradient-to-br from-yellow-50 via-emerald-50 to-white">
+        <div className="md:text-right">
+                        <Breadcrumbs />
+                      </div>
         <Container className="text-center">
           {selectedType?.text && (
             <div className="inline-block rounded-full bg-yellow-100 px-5 py-2 text-sm font-semibold text-yellow-800 border border-yellow-200 mb-6">

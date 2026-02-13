@@ -70,12 +70,12 @@ export default function Breadcrumbs() {
 
   return (
     <nav aria-label="Breadcrumb" className="mb-4">
-      <ol className="flex flex-wrap items-center text-sm text-gray-600">
+      <ol className="flex flex-wrap items-center text-lg text-gray-600">
         <li>
-          <Link href="/" className="hover:underline">
+          <Link href="/" className="text-[rgb(230_120_23)] hover:underline">
             Home
           </Link>
-          {segments.length > 0 && <span className="mx-1">/</span>}
+          {segments.length > 0 && <span className="mx-2">{">"}</span>}
         </li>
 
         {segments.map((segment, index) => {
@@ -97,13 +97,13 @@ export default function Breadcrumbs() {
           return (
             <li key={href} className="flex items-center">
               {isLast ? (
-                <span className="font-medium text-gray-900">{label}</span>
+                <span className="font-medium text-[rgb(0_84_164)]">{label}</span>
               ) : (
                 <>
-                  <Link href={href} className="hover:underline">
+                  <Link href={href} className="text-[rgb(230_120_23)] hover:underline">
                     {label}
                   </Link>
-                  <span className="mx-1">/</span>
+                  <span className="mx-2">{">"}</span>
                 </>
               )}
             </li>
