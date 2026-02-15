@@ -75,7 +75,8 @@ export default function Breadcrumbs() {
           <Link href="/" className="text-[rgb(230_120_23)] hover:underline">
             Home
           </Link>
-          {segments.length > 0 && <span className="mx-2">{">"}</span>}
+          {/* {segments.length > 0 && <span className="mx-2">{">"}</span>} */}
+          {segments.length > 0 && <span className="mx-2">{"▶"}</span>}
         </li>
 
         {segments.map((segment, index) => {
@@ -103,7 +104,7 @@ export default function Breadcrumbs() {
                   <Link href={href} className="text-[rgb(230_120_23)] hover:underline">
                     {label}
                   </Link>
-                  <span className="mx-2">{">"}</span>
+                  <span className="mx-2">{"▶"}</span>
                 </>
               )}
             </li>
