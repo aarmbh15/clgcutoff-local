@@ -19,6 +19,7 @@ import { ArrowRight, ChevronLeft, CircleCheckBig, Users } from "lucide-react"
 import Link from "next/link"
 import { useParams, useRouter, useSearchParams } from "next/navigation"
 import { useCallback, useEffect, useRef, useState } from "react"
+import Breadcrumbs from "@/components/common/Breadcrumbs";
 
 export default function StateClosingRanksPage() {
   const params = useParams()
@@ -740,13 +741,18 @@ export default function StateClosingRanksPage() {
       <div>
         <section className="w-full py-12 md:py-16 bg-gradient-to-r from-yellow-50 to-emerald-50 relative overflow-hidden">
           <Container className="container px-4 md:px-6">
-            <Link
+            {/* <Link
               href={backURL()}
               className="inline-flex items-center text-yellow-600 hover:text-yellow-700 mb-6"
             >
               <ChevronLeft className="h-4 w-4 mr-1" />
               Back to {state} Colleges
-            </Link>
+            </Link> */}
+
+            {/* ➡️ Right: Breadcrumbs */}
+                          <div className="md:text-right">
+                            <Breadcrumbs />
+                          </div>
 
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mt-3">
               <div>

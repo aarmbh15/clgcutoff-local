@@ -422,7 +422,7 @@
 
                         {/* ── Mobile: bottom sheet ── */}
                         {/* <div className="lg:hidden fixed inset-0 z-[1001] bg-black/50 flex flex-col justify-end"> */}
-                        <div className="lg:hidden fixed inset-0 z-[1001] bg-black/60 flex items-center justify-center sm:p-4">
+                        <div className="lg:hidden fixed inset-0 z-[1001] bg-black/60 flex items-center justify-center p-3 sm:p-4">
                           {/* Backdrop */}
                           {/* <div className="flex-1" onClick={closeDropdown} aria-hidden="true" /> */}
 
