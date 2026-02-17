@@ -555,6 +555,8 @@ export function CollegePredictorTest() {
           errors={errors}
              wrapperClass="w-full"
           disabled={isEmpty(formData?.courseType?.text)}
+          disableSearch={true}
+          
         />
 
 
@@ -589,6 +591,9 @@ export function CollegePredictorTest() {
             autoComplete(text, filteredCounsellingTypeDataList, setOptions)
           }
           errors={errors}
+          disableSearch={true}
+          
+          
         />
         {formData?.counsellingType?.id == 2 && (
           <SearchAndSelect

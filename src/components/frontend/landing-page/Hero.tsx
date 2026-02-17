@@ -1,9 +1,20 @@
+
 import { Check } from "lucide-react"
 import Link from "next/link"
 import React from "react"
+import type { Metadata } from 'next';
 
 import { CollegePredictorForm } from "../college-predictor/CollegePredictorForm"
 import { CollegePredictorTest } from "../college-predictor/CollegePredictorTest"
+export const metadata: Metadata = {
+  title: 'Your Site Title',
+  description: 'Your site description',
+  verification: {
+    other: {
+      'google-site-verification': 'Z-3GUYgSxZbS-wCJB3786KBeaqh7vsJ6lKuU73VQ0_I',
+    },
+  },
+};
 
 export function Hero() {
   return (
