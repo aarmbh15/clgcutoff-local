@@ -1,5 +1,5 @@
 "use client"
-
+import { motion } from "framer-motion";
 import SearchAndSelect from "@/components/common/SearchAndSelect"
 import { SignInPopup } from "@/components/common/popups/SignInPopup"
 import { Container } from "@/components/frontend/Container"
@@ -313,21 +313,59 @@ export default function ClosingRanks() {
             </>
           ) : (
             /* Guidance when nothing selected */
-            <div className="text-center py-16 px-6 bg-gradient-to-b from-gray-50 to-white rounded-2xl border border-dashed border-gray-300">
-              <div className="max-w-lg mx-auto">
-                <div className="text-6xl mb-6">🎯</div>
-                <h3 className="text-2xl font-bold text-gray-800 mb-4">
-                  Ready to explore closing ranks?
-                </h3>
-                <p className="text-gray-600 text-lg leading-relaxed mb-6">
-                  Start by selecting a <strong>Course Type</strong> above 
-                  {selectedType?.text === "NEET UG" ? " and then choose a specific course" : ""}.
-                </p>
-                <p className="text-gray-500">
-                  Popular options: NEET UG, NEET PG, NEET MDS, AIAPGET (Ayurveda)...
-                </p>
+            <div className="relative group overflow-hidden text-center py-24 px-8 bg-gradient-to-br from-yellow-50 via-emerald-50 to-white rounded-[2.5rem] border border-emerald-100/50 shadow-[0_20px_50px_rgba(16,185,129,0.05)] transition-all duration-700 hover:shadow-[0_30px_60px_rgba(16,185,129,0.1)]">
+  
+            {/* Decorative "Soft Glow" background elements */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-yellow-200/20 rounded-full blur-[80px] -mr-32 -mt-32 animate-pulse"></div>
+            <div className="absolute bottom-0 left-0 w-64 h-64 bg-emerald-200/20 rounded-full blur-[80px] -ml-32 -mb-32 animate-pulse"></div>
+          
+            <div className="relative max-w-lg mx-auto">
+              {/* Floating Icon with a "Halo" effect */}
+              <div className="relative inline-flex items-center justify-center mb-10 group-hover:scale-110 transition-transform duration-500">
+                <div className="absolute inset-0 bg-emerald-200/40 rounded-full blur-2xl scale-150 animate-pulse"></div>
+                <div className="relative w-24 h-24 bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-white flex items-center justify-center text-5xl animate-bounce [animation-duration:3s]">
+                  🎯
+                </div>
+              </div>
+          
+              <h3 className="text-3xl font-black text-gray-800 mb-5 tracking-tight leading-tight">
+                Ready to explore <br/>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-500">
+                  closing ranks?
+                </span>
+              </h3>
+          
+              <p className="text-gray-600 text-lg leading-relaxed mb-10 font-medium">
+                Start by selecting a 
+                <span className="mx-1.5 px-3 py-1 bg-emerald-600 text-white rounded-lg shadow-sm font-bold">
+                  Course Type
+                </span> 
+                above 
+                {selectedType?.text === "NEET UG" ? (
+                  <span className="block mt-2 text-emerald-700/70 italic text-base">
+                    ...and then choose a specific course
+                  </span>
+                ) : ""}
+              </p>
+          
+              {/* Stylish Chips for Popular Options */}
+              <div className="flex flex-col items-center space-y-4">
+                <span className="text-xs font-bold uppercase tracking-[0.2em] text-emerald-800/40">
+                  Popular Categories
+                </span>
+                <div className="flex flex-wrap justify-center gap-3">
+                  {["NEET UG", "NEET PG", "NEET MDS", "AIAPGET"].map((tag) => (
+                    <span 
+                      key={tag} 
+                      className="px-4 py-1.5 bg-white/60 backdrop-blur-md border border-emerald-100 text-emerald-800 text-sm font-bold rounded-2xl shadow-sm hover:bg-emerald-500 hover:text-white transition-colors duration-300 cursor-default"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
+          </div>
           )}
 
           {/* CTA */}
@@ -353,4 +391,5 @@ export default function ClosingRanks() {
       <SignInPopup />
     </FELayout>
   )
+  
 }
