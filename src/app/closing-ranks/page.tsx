@@ -205,6 +205,7 @@ export default function ClosingRanks() {
                 searchAPI={(txt, set) => autoComplete(txt, predictorTypeList, set)}
                 wrapperClass="w-full"
                 errors={errors}
+                disableSearch={true}
               />
 
               {/* Course – only for NEET UG */}
