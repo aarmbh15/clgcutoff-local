@@ -11,6 +11,7 @@
 
   interface SearchAndSelectProps extends ICommonComponentProps {
     className?: string
+    
     options: IOption[]
     value: IOption | undefined
     labelNode?: React.ReactNode
@@ -34,6 +35,7 @@
     ) => void
     labelClassName?: string
     loading?: boolean
+    disableSearch?: boolean;
   }
 
   // Global state to track open dropdowns
@@ -44,6 +46,7 @@
   //     openDropdowns.clear()
   //   })
   // }
+
   export const SearchAndSelect = ({
     name,
     className,
@@ -66,6 +69,7 @@
     defaultOption,
     setValue,
     labelClassName,
+    disableSearch = false,
     ...props
   }: SearchAndSelectProps) => {
     const [input, setInput] = useState(defaultOption ? defaultOption.text : "")
@@ -74,8 +78,11 @@
     const [listOptions, setListOptions] = useState(options)
     const [isLoading, setIsLoading] = useState(false)
     const [activeOptionIndex, setActiveOptionIndex] = useState<number>(-1)
+    const isPureDropdown = disableSearch === true;
     const internalRef = useRef<HTMLDivElement>(null)
-    const dropdownId = useRef(uuidv4()) // Unique ID for each dropdown
+    const dropdownId = useRef(uuidv4())
+    
+    // Unique ID for each dropdown
     // PROBLEM: This runs on server where window doesn't exist
     if (typeof window !== "undefined") {
       window.addEventListener("beforeunload", () => {
@@ -206,6 +213,7 @@
     }
 
     function onInputChange(value: string) {
+      if (isPureDropdown) return;
       setInput(value)
 
       if (value?.trim() === "") {
@@ -316,6 +324,7 @@
                         "flex focus:outline-none focus-visible:outline-none disabled:bg-[#DCE5DD] disabled:cursor-not-allowed",
                         "bg-color-white_black w-full font-[400] text-[14px]",
                         className,
+                        isPureDropdown && "cursor-pointer",
                       )}
                       ref={field.ref}
                       value={input}
@@ -323,7 +332,12 @@
                       placeholder={placeholder}
                       disabled={props?.disabled}
                       autoComplete="off"
+                      readOnly={isPureDropdown}  // ← ADD THIS (very important)
                       onFocus={() => {
+                        if (isPureDropdown) {
+                          toggleDropdown();                           // ← open dropdown instead of search
+                          return;
+                        }
                         if (input?.length >= minInputLengthToCallAPI) {
                           setInput("")
                           setListOptions(options)
@@ -425,6 +439,7 @@
                             </div> */}
 
                             {/* Modal container */}
+
                             <div
                               className={cn(
                                 "bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[80vh] flex flex-col",
@@ -438,6 +453,7 @@
                               Select
                             </div> */}
                             {/* Optional header */}
+
                             <div className="px-5 py-4 border-b flex items-center justify-between bg-gray-50/80">
                               <div className="text-lg font-semibold text-gray-900">Select</div>
                               <button
@@ -452,6 +468,7 @@
 
                             {/* Scrollable list */}
                             {/* <div className="overflow-y-auto overscroll-contain flex-1 pb-safe"> */}
+                            
                             <div className="flex-1 overflow-y-auto">
                               {isLoading ? (
                                 <div className="flex items-center justify-center gap-3 py-12 text-gray-600">
@@ -523,6 +540,7 @@
                                 //     </label>
                                 //   );
                                 // })
+
                                 options.map((option, index) => {
                                   const isSelected = selectedValue?.id === option.id;
 

@@ -406,6 +406,7 @@ export function CollegePredictorTest() {
           label="Pedictor Type"
           placeholder="Select Predictor Type"
           value={formData?.courseType}
+          // isSearchable={false} 
           onChange={({ name, selectedValue }) => {
             onOptionSelected(name, selectedValue, setFormData)
             // console.log(selectedValue)
@@ -442,13 +443,57 @@ export function CollegePredictorTest() {
           required
           options={courseTypeList}
           debounceDelay={0}
-
+          
       wrapperClass="w-full"
           searchAPI={(text, setOptions) =>
             autoComplete(text, courseTypeList, setOptions)
           }
           errors={errors}
+          disableSearch={true}
         />
+        {/* <SearchAndSelect
+  name="predictorType"
+  label="Predictor Type"
+  placeholder="Select Predictor Type"
+  value={formData?.courseType}
+  onChange={({ name, selectedValue }) => {
+    onOptionSelected(name, selectedValue, setFormData)
+
+    if (selectedValue?.text)
+      getCoursesBasedOncourseType(selectedValue?.text)
+
+    setFormData((prev) => ({
+      ...prev,
+      courseType: selectedValue,
+      courses: undefined,
+      counsellingType: undefined,
+    }))
+
+    const neetBasedExams = [
+      "NEET UG",
+      "NEET MDS",
+      "NEET SS",
+      "AIAPGET (Ayurveda)",
+    ]
+
+    if (
+      selectedValue?.text &&
+      neetBasedExams.includes(selectedValue.text)
+    ) {
+      setRadioOption(["Rank", "Marks"])
+    } else {
+      setRadioOption(["Rank", "Percentile"])
+    }
+  }}
+  loading={isCourseTypeLoading}
+  control={control}
+  setValue={setValue}
+  required
+  options={courseTypeList}
+  wrapperClass="w-full"
+  errors={errors}
+/> */}
+
 
         <p>What do you have ?</p>
 
