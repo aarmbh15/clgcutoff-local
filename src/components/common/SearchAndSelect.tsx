@@ -422,7 +422,7 @@
 
                         {/* ── Mobile: bottom sheet ── */}
                         {/* <div className="lg:hidden fixed inset-0 z-[1001] bg-black/50 flex flex-col justify-end"> */}
-                        <div className="lg:hidden fixed inset-0 z-[1001] bg-black/60 flex items-center justify-center p-4">
+                        <div className="lg:hidden fixed inset-0 z-[1001] bg-black/60 flex items-center justify-center sm:p-4">
                           {/* Backdrop */}
                           {/* <div className="flex-1" onClick={closeDropdown} aria-hidden="true" /> */}
 
@@ -442,8 +442,15 @@
 
                             <div
                               className={cn(
-                                "bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[80vh] flex flex-col",
-                                "border border-gray-200 overflow-hidden",
+                                // "bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[80vh] flex flex-col",
+                                // "border border-gray-200 overflow-hidden",
+                                // "bg-white w-full max-w-md flex flex-col",
+                                "bg-white w-full flex flex-col",
+      
+      // "border-t rounded-2xl border-gray-200 sm:border sm:shadow-2xl max-h",
+      // ✅ Mobile: full screen
+    "h-[100dvh] max-h-[100dvh] rounded-2xl border border-gray-200 border-t",
+      "overflow-hidden",
                                 props.listOptionClass // if you want to reuse some classes
                               )}
                             >
@@ -452,6 +459,7 @@
                             {/* <div className="px-5 pb-3 text-lg font-semibold border-b">
                               Select
                             </div> */}
+          
                             {/* Optional header */}
 
                             <div className="px-5 py-4 border-b flex items-center justify-between bg-gray-50/80">
@@ -469,7 +477,8 @@
                             {/* Scrollable list */}
                             {/* <div className="overflow-y-auto overscroll-contain flex-1 pb-safe"> */}
                             
-                            <div className="flex-1 overflow-y-auto">
+                            {/* <div className="flex-1 overflow-y-auto"> */}
+                            <div className="flex-1 overflow-y-auto overscroll-contain pb-safe">
                               {isLoading ? (
                                 <div className="flex items-center justify-center gap-3 py-12 text-gray-600">
                                   <SmallSpinner />
