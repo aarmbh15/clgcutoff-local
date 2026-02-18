@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 
 const LABEL_MAP: Record<string, string> = {
 //   admin: "Admin",
@@ -63,10 +63,23 @@ const STATE_MAP: Record<string, string> = {
 
 export default function Breadcrumbs() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const segments = pathname.split("/").filter(Boolean);
 
   // hide breadcrumbs on home & admin (optional)
   if (segments.length === 0 || segments[0] === "admin") return null;
+
+  // Helper: create href that preserves current ?courseType & ?course when going to /closing-ranks
+  const getHrefWithParams = (targetPath: string) => {
+    if (targetPath !== "/closing-ranks") {
+      return targetPath; // normal behavior for other pages
+    }
+
+    // For /closing-ranks → keep existing query params
+    const currentParams = new URLSearchParams(searchParams?.toString() || "");
+    const query = currentParams.toString();
+    return query ? `${targetPath}?${query}` : targetPath;
+  };
 
   return (
     <nav aria-label="Breadcrumb" className="mb-4">
@@ -80,7 +93,7 @@ export default function Breadcrumbs() {
         </li>
 
         {segments.map((segment, index) => {
-          const href = "/" + segments.slice(0, index + 1).join("/");
+          const pathSoFar = "/" + segments.slice(0, index + 1).join("/");
           const isLast = index === segments.length - 1;
 
         //   const label =
@@ -93,6 +106,9 @@ export default function Breadcrumbs() {
         segment
             .replace(/-/g, " ")
             .replace(/\b\w/g, (c) => c.toUpperCase());
+
+        // Use preserved href only when linking to closing-ranks
+        const href = getHrefWithParams(pathSoFar);
 
 
           return (
