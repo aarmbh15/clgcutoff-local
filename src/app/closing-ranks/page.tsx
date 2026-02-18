@@ -1,5 +1,6 @@
 "use client"
-import { motion } from "framer-motion";
+
+import { motion } from "framer-motion"
 import SearchAndSelect from "@/components/common/SearchAndSelect"
 import { SignInPopup } from "@/components/common/popups/SignInPopup"
 import { Container } from "@/components/frontend/Container"
@@ -12,7 +13,7 @@ import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation"
 import React, { useEffect, useState, useCallback, useMemo } from "react"
 import { useForm } from "react-hook-form"
-import Breadcrumbs from "@/components/common/Breadcrumbs";
+import Breadcrumbs from "@/components/common/Breadcrumbs"
 
 const STATES: { name: string; slug: string; code: string; popular?: boolean }[] = [
   { name: "All India", slug: "all-india", code: "all" },
@@ -66,25 +67,95 @@ export default function ClosingRanks() {
   const [isCourseLoading, setIsCourseLoading] = useState<boolean>(false)
 
   const searchParams = useSearchParams()
-  const courseType = searchParams.get("courseType")
-  const course = searchParams.get("course")
   const router = useRouter()
   const { showToast } = useAppState()
+
   const { setValue, setError, clearErrors, control, formState: { errors } } = useForm()
 
-  const updateURL = useCallback((params: Record<string, string>, replace = true) => {
-    const query = new URLSearchParams(params).toString()
-    const url = `/closing-ranks?${query}`
-    if (replace) {
-      router.replace(url, { scroll: false })
-    } else {
-      router.push(url)
+  // ─────────────────────────────────────────────
+  // Stable functions / callbacks – declare them early
+  // ─────────────────────────────────────────────
+  const getCoursesByType = useCallback(async (type: string) => {
+    setIsCourseLoading(true)
+    try {
+      const res = await fetch(`/api/get-courses?type=${encodeURIComponent(type)}`)
+      const { data } = await res.json()
+      setCoursesList(
+        Array.isArray(data) ? data.map((c: any) => ({ id: c.id, text: c.text })) : []
+      )
+    } catch (err) {
+      console.error("Error fetching courses:", err)
+    } finally {
+      setIsCourseLoading(false)
     }
-  }, [router])
+  }, [])
 
-  // Fetch predictor types
+  const updateURL = useCallback(
+    (params: Record<string, string | undefined>, replace = true) => {
+      const current = new URLSearchParams(searchParams?.toString() || "")
+
+      Object.entries(params).forEach(([key, value]) => {
+        if (value !== undefined && value !== "") {
+          current.set(key, value)
+        } else {
+          current.delete(key)
+        }
+      })
+
+      const query = current.toString()
+      const url = query ? `/closing-ranks?${query}` : "/closing-ranks"
+
+      if (replace) {
+        router.replace(url, { scroll: false })
+      } else {
+        router.push(url)
+      }
+    },
+    [router, searchParams]
+  )
+
+  // ─────────────────────────────────────────────
+  // Restore form selections from URL params
+  // ─────────────────────────────────────────────
   useEffect(() => {
-    (async () => {
+    const courseTypeFromUrl = searchParams.get("courseType")
+
+    if (courseTypeFromUrl && predictorTypeList.length > 0) {
+      const matchingType = predictorTypeList.find(
+        (item) => item.text === courseTypeFromUrl
+      )
+      if (matchingType) {
+        setSelectedType(matchingType)
+        setValue("courseType", matchingType, { shouldValidate: true })
+
+        if (matchingType.text === "NEET UG") {
+          getCoursesByType(matchingType.text)
+        }
+      }
+    }
+  }, [searchParams, predictorTypeList, setValue, getCoursesByType])
+
+  useEffect(() => {
+    const courseFromUrl = searchParams.get("course")
+
+    if (
+      courseFromUrl &&
+      selectedType?.text === "NEET UG" &&
+      coursesList.length > 0
+    ) {
+      const matchingCourse = coursesList.find(
+        (item) => item.text === courseFromUrl
+      )
+      if (matchingCourse) {
+        setSelectedCourse(matchingCourse)
+        setValue("course", matchingCourse, { shouldValidate: true })
+      }
+    }
+  }, [coursesList, searchParams, selectedType, setValue])
+
+  // Fetch predictor types once on mount
+  useEffect(() => {
+    ;(async () => {
       try {
         const res = await fetch("/api/get-courses-types")
         const json = await res.json()
@@ -97,32 +168,15 @@ export default function ClosingRanks() {
     })()
   }, [])
 
-  // Fetch courses by type (only when needed)
-  const getCoursesByType = useCallback(async (type: string) => {
-    setIsCourseLoading(true)
-    try {
-      const res = await fetch(`/api/get-courses?type=${encodeURIComponent(type)}`)
-      const { data } = await res.json()
-      setCoursesList(Array.isArray(data) ? data.map((c: any) => ({ id: c.id, text: c.text })) : [])
-    } catch (err) {
-      console.error("Error fetching courses:", err)
-    } finally {
-      setIsCourseLoading(false)
-    }
-  }, [])
-
-  // Show states only when proper selections are made
   const canShowStates = useMemo(() => {
     if (!selectedType?.text) return false
     if (selectedType.text === "NEET UG" && !selectedCourse?.text) return false
     return true
   }, [selectedType, selectedCourse])
 
-  // Filtered states
   const filteredStates = useMemo(() => {
-    return STATES.filter(
-      s =>
-        s.name.toLowerCase().includes(searchQuery.toLowerCase())
+    return STATES.filter((s) =>
+      s.name.toLowerCase().includes(searchQuery.toLowerCase())
     )
   }, [searchQuery])
 
@@ -130,7 +184,9 @@ export default function ClosingRanks() {
     if (!selectedType?.text) return ""
     const courseParam = selectedType.text === "NEET UG" ? selectedCourse?.text || "" : ""
     const stateParam = state.code === "all" ? "All India" : state.name
-    return `/closing-ranks/${state.code}?state=${encodeURIComponent(stateParam)}&courseType=${encodeURIComponent(selectedType.text)}&course=${encodeURIComponent(courseParam)}`
+    return `/closing-ranks/${state.code}?state=${encodeURIComponent(stateParam)}&courseType=${encodeURIComponent(
+      selectedType.text
+    )}&course=${encodeURIComponent(courseParam)}`
   }
 
   const validateSelection = () => {
@@ -151,8 +207,8 @@ export default function ClosingRanks() {
     <FELayout>
       <section className="w-full px-3 py-10 md:py-14 bg-gradient-to-br from-yellow-50 via-emerald-50 to-white">
         <div className="md:text-right">
-                        <Breadcrumbs />
-                      </div>
+          <Breadcrumbs />
+        </div>
         <Container className="text-center">
           {selectedType?.text && (
             <div className="inline-block rounded-full bg-yellow-100 px-5 py-2 text-sm font-semibold text-yellow-800 border border-yellow-200 mb-6">
@@ -182,7 +238,6 @@ export default function ClosingRanks() {
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 md:gap-6 max-w-4xl">
-              {/* Course Type */}
               <SearchAndSelect
                 name="courseType"
                 setValue={setValue}
@@ -191,16 +246,22 @@ export default function ClosingRanks() {
                 value={selectedType}
                 onChange={({ selectedValue }) => {
                   setSelectedType(selectedValue)
+                  setValue("courseType", selectedValue, { shouldValidate: true })
+
                   setSelectedCourse(undefined)
+                  setValue("course", undefined, { shouldValidate: true })
+
                   clearErrors("courseType")
                   clearErrors("course")
+
                   if (selectedValue?.text === "NEET UG") {
                     getCoursesByType(selectedValue.text)
                   }
+
                   updateURL({ courseType: selectedValue?.text || "", course: "" })
                 }}
                 control={control}
-                defaultOption={{ id: courseType || "", text: courseType || "" }}
+                defaultOption={{ id: searchParams.get("courseType") || "", text: searchParams.get("courseType") || "" }}
                 options={predictorTypeList}
                 searchAPI={(txt, set) => autoComplete(txt, predictorTypeList, set)}
                 wrapperClass="w-full"
@@ -208,24 +269,26 @@ export default function ClosingRanks() {
                 disableSearch={true}
               />
 
-              {/* Course – only for NEET UG */}
               {selectedType?.text === "NEET UG" && (
                 <SearchAndSelect
-                setValue={setValue}
+                  setValue={setValue}
                   name="course"
                   label="Course"
                   placeholder="Select Course (MBBS / BDS / BAMS...)"
                   value={selectedCourse}
                   onChange={({ selectedValue }) => {
                     setSelectedCourse(selectedValue)
+                    setValue("course", selectedValue, { shouldValidate: true })
+
                     clearErrors("course")
+
                     updateURL({
                       courseType: selectedType?.text || "",
                       course: selectedValue?.text || ""
                     })
                   }}
                   control={control}
-                  defaultOption={{ id: course || "", text: course || "" }}
+                  defaultOption={{ id: searchParams.get("course") || "", text: searchParams.get("course") || "" }}
                   options={coursesList}
                   loading={isCourseLoading}
                   searchAPI={(txt, set) => autoComplete(txt, coursesList, set)}
@@ -236,7 +299,6 @@ export default function ClosingRanks() {
             </div>
           </div>
 
-          {/* Conditional States Section */}
           {canShowStates ? (
             <>
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
@@ -251,7 +313,6 @@ export default function ClosingRanks() {
                 </div>
               </div>
 
-              {/* Search */}
               <div className="relative max-w-md mb-8">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
                 <input
@@ -259,17 +320,16 @@ export default function ClosingRanks() {
                   placeholder="Search state or union territory..."
                   className="w-full pl-12 pr-4 py-3.5 rounded-xl border border-gray-300 focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 outline-none transition"
                   value={searchQuery}
-                  onChange={e => setSearchQuery(e.target.value)}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
 
-              {/* Grid */}
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 md:gap-6">
-                {filteredStates.map(state => (
+                {filteredStates.map((state) => (
                   <Link
                     key={state.slug}
                     href={buildRedirectURL(state)}
-                    onClick={e => !validateSelection() && e.preventDefault()}
+                    onClick={(e) => !validateSelection() && e.preventDefault()}
                     className="group bg-white rounded-2xl border border-gray-200 p-6 hover:shadow-xl hover:border-yellow-400 transition-all duration-200 flex flex-col h-full"
                   >
                     <div className="flex items-start justify-between mb-4">
@@ -312,63 +372,58 @@ export default function ClosingRanks() {
               )}
             </>
           ) : (
-            /* Guidance when nothing selected */
             <div className="relative group overflow-hidden text-center py-24 px-8 bg-gradient-to-br from-yellow-50 via-emerald-50 to-white rounded-[2.5rem] border border-emerald-100/50 shadow-[0_20px_50px_rgba(16,185,129,0.05)] transition-all duration-700 hover:shadow-[0_30px_60px_rgba(16,185,129,0.1)]">
-  
-            {/* Decorative "Soft Glow" background elements */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-yellow-200/20 rounded-full blur-[80px] -mr-32 -mt-32 animate-pulse"></div>
-            <div className="absolute bottom-0 left-0 w-64 h-64 bg-emerald-200/20 rounded-full blur-[80px] -ml-32 -mb-32 animate-pulse"></div>
-          
-            <div className="relative max-w-lg mx-auto">
-              {/* Floating Icon with a "Halo" effect */}
-              <div className="relative inline-flex items-center justify-center mb-10 group-hover:scale-110 transition-transform duration-500">
-                <div className="absolute inset-0 bg-emerald-200/40 rounded-full blur-2xl scale-150 animate-pulse"></div>
-                <div className="relative w-24 h-24 bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-white flex items-center justify-center text-5xl animate-bounce [animation-duration:3s]">
-                  🎯
+              {/* ... decorative content remains the same ... */}
+              <div className="absolute top-0 right-0 w-64 h-64 bg-yellow-200/20 rounded-full blur-[80px] -mr-32 -mt-32 animate-pulse"></div>
+              <div className="absolute bottom-0 left-0 w-64 h-64 bg-emerald-200/20 rounded-full blur-[80px] -ml-32 -mb-32 animate-pulse"></div>
+
+              <div className="relative max-w-lg mx-auto">
+                <div className="relative inline-flex items-center justify-center mb-10 group-hover:scale-110 transition-transform duration-500">
+                  <div className="absolute inset-0 bg-emerald-200/40 rounded-full blur-2xl scale-150 animate-pulse"></div>
+                  <div className="relative w-24 h-24 bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-white flex items-center justify-center text-5xl animate-bounce [animation-duration:3s]">
+                    🎯
+                  </div>
                 </div>
-              </div>
-          
-              <h3 className="text-3xl font-black text-gray-800 mb-5 tracking-tight leading-tight">
-                Ready to explore <br/>
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-500">
-                  closing ranks?
-                </span>
-              </h3>
-          
-              <p className="text-gray-600 text-lg leading-relaxed mb-10 font-medium">
-                Start by selecting a 
-                <span className="mx-1.5 px-3 py-1 bg-emerald-600 text-white rounded-lg shadow-sm font-bold">
-                  Course Type
-                </span> 
-                above 
-                {selectedType?.text === "NEET UG" ? (
-                  <span className="block mt-2 text-emerald-700/70 italic text-base">
-                    ...and then choose a specific course
+
+                <h3 className="text-3xl font-black text-gray-800 mb-5 tracking-tight leading-tight">
+                  Ready to explore <br />
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-500">
+                    closing ranks?
                   </span>
-                ) : ""}
-              </p>
-          
-              {/* Stylish Chips for Popular Options */}
-              <div className="flex flex-col items-center space-y-4">
-                <span className="text-xs font-bold uppercase tracking-[0.2em] text-emerald-800/40">
-                  Popular Categories
-                </span>
-                <div className="flex flex-wrap justify-center gap-3">
-                  {["NEET UG", "NEET PG", "NEET MDS", "AIAPGET"].map((tag) => (
-                    <span 
-                      key={tag} 
-                      className="px-4 py-1.5 bg-white/60 backdrop-blur-md border border-emerald-100 text-emerald-800 text-sm font-bold rounded-2xl shadow-sm hover:bg-emerald-500 hover:text-white transition-colors duration-300 cursor-default"
-                    >
-                      {tag}
+                </h3>
+
+                <p className="text-gray-600 text-lg leading-relaxed mb-10 font-medium">
+                  Start by selecting a{" "}
+                  <span className="mx-1.5 px-3 py-1 bg-emerald-600 text-white rounded-lg shadow-sm font-bold">
+                    Course Type
+                  </span>{" "}
+                  above
+                  {selectedType?.text === "NEET UG" ? (
+                    <span className="block mt-2 text-emerald-700/70 italic text-base">
+                      ...and then choose a specific course
                     </span>
-                  ))}
+                  ) : ""}
+                </p>
+
+                <div className="flex flex-col items-center space-y-4">
+                  <span className="text-xs font-bold uppercase tracking-[0.2em] text-emerald-800/40">
+                    Popular Categories
+                  </span>
+                  <div className="flex flex-wrap justify-center gap-3">
+                    {["NEET UG", "NEET PG", "NEET MDS", "AIAPGET"].map((tag) => (
+                      <span
+                        key={tag}
+                        className="px-4 py-1.5 bg-white/60 backdrop-blur-md border border-emerald-100 text-emerald-800 text-sm font-bold rounded-2xl shadow-sm hover:bg-emerald-500 hover:text-white transition-colors duration-300 cursor-default"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
           )}
 
-          {/* CTA */}
           <div className="mt-16 md:mt-20 border border-yellow-200 bg-yellow-50/40 rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="text-center md:text-left">
               <h3 className="text-xl md:text-2xl font-bold mb-3 text-gray-900">
@@ -391,5 +446,4 @@ export default function ClosingRanks() {
       <SignInPopup />
     </FELayout>
   )
-  
 }
