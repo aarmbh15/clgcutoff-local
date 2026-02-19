@@ -55,7 +55,6 @@ const STATES: { name: string; slug: string; code: string; popular?: boolean }[] 
   { name: "Uttarakhand", slug: "uttarakhand", code: "UK" },
   { name: "West Bengal", slug: "west-bengal", code: "WB" },
 ]
-
 const ALLOWED_PREDICTORS = ["NEET UG", "NEET PG", "NEET MDS", "AIAPGET (Ayurveda)", ""]
 
 export default function ClosingRanks() {
@@ -67,14 +66,12 @@ export default function ClosingRanks() {
   const [isCourseLoading, setIsCourseLoading] = useState<boolean>(false)
 
   const searchParams = useSearchParams()
+  const forceKey = searchParams.toString();  // changes on every param change, including back/forward
   const router = useRouter()
   const { showToast } = useAppState()
 
   const { setValue, setError, clearErrors, control, formState: { errors } } = useForm()
 
-  // ─────────────────────────────────────────────
-  // Stable functions / callbacks – declare them early
-  // ─────────────────────────────────────────────
   const getCoursesByType = useCallback(async (type: string) => {
     setIsCourseLoading(true)
     try {
@@ -91,7 +88,7 @@ export default function ClosingRanks() {
   }, [])
 
   const updateURL = useCallback(
-    (params: Record<string, string | undefined>, replace = true) => {
+    (params: Record<string, string | undefined>) => {
       const current = new URLSearchParams(searchParams?.toString() || "")
 
       Object.entries(params).forEach(([key, value]) => {
@@ -104,56 +101,56 @@ export default function ClosingRanks() {
 
       const query = current.toString()
       const url = query ? `/closing-ranks?${query}` : "/closing-ranks"
-
-      if (replace) {
-        router.replace(url, { scroll: false })
-      } else {
-        router.push(url)
-      }
+      router.replace(url, { scroll: false })
     },
     [router, searchParams]
   )
 
-  // ─────────────────────────────────────────────
-  // Restore form selections from URL params
-  // ─────────────────────────────────────────────
+  // Restore course TYPE + trigger course loading if NEET UG
   useEffect(() => {
+    if (predictorTypeList.length === 0) return
+
     const courseTypeFromUrl = searchParams.get("courseType")
+    if (!courseTypeFromUrl) return
 
-    if (courseTypeFromUrl && predictorTypeList.length > 0) {
-      const matchingType = predictorTypeList.find(
-        (item) => item.text === courseTypeFromUrl
-      )
-      if (matchingType) {
-        setSelectedType(matchingType)
-        setValue("courseType", matchingType, { shouldValidate: true })
+    const matchingType = predictorTypeList.find(
+      (item) => item.text === courseTypeFromUrl
+    )
 
-        if (matchingType.text === "NEET UG") {
-          getCoursesByType(matchingType.text)
-        }
+    if (matchingType) {
+      setSelectedType(matchingType)
+      setValue("courseType", matchingType, { shouldValidate: true })
+
+      if (matchingType.text === "NEET UG") {
+        getCoursesByType(matchingType.text)
       }
     }
   }, [searchParams, predictorTypeList, setValue, getCoursesByType])
 
+  // Restore COURSE — only when we have type + courses loaded
   useEffect(() => {
-    const courseFromUrl = searchParams.get("course")
-
     if (
-      courseFromUrl &&
-      selectedType?.text === "NEET UG" &&
-      coursesList.length > 0
+      !selectedType?.text ||
+      selectedType.text !== "NEET UG" ||
+      coursesList.length === 0
     ) {
-      const matchingCourse = coursesList.find(
-        (item) => item.text === courseFromUrl
-      )
-      if (matchingCourse) {
-        setSelectedCourse(matchingCourse)
-        setValue("course", matchingCourse, { shouldValidate: true })
-      }
+      return
     }
-  }, [coursesList, searchParams, selectedType, setValue])
 
-  // Fetch predictor types once on mount
+    const courseFromUrl = searchParams.get("course")
+    if (!courseFromUrl) return
+
+    const matchingCourse = coursesList.find(
+      (item) => item.text === courseFromUrl
+    )
+
+    if (matchingCourse) {
+      setSelectedCourse(matchingCourse)
+      setValue("course", matchingCourse, { shouldValidate: true })
+    }
+  }, [searchParams, selectedType, coursesList, setValue])
+
+  // Fetch predictor types once
   useEffect(() => {
     ;(async () => {
       try {
@@ -230,74 +227,74 @@ export default function ClosingRanks() {
         <Container>
           {/* Selection Area */}
           <div className="mb-10">
-            <h2 className="text-2xl md:text-3xl font-bold mb-2 text-gray-900">
-              Find Your College Closing Ranks
-            </h2>
-            <p className="text-gray-600 mb-6 md:mb-8">
-              Select course type {selectedType?.text === "NEET UG" ? "and specific course " : ""}to see available states
-            </p>
+        <h2 className="text-2xl md:text-3xl font-bold mb-2 text-gray-900">
+          Find Your College Closing Ranks
+        </h2>
+        <p className="text-gray-600 mb-6 md:mb-8">
+          Select course type {selectedType?.text === "NEET UG" ? "and specific course " : ""}to see available states
+        </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 md:gap-6 max-w-4xl">
-              <SearchAndSelect
-                name="courseType"
-                setValue={setValue}
-                placeholder="Select Course Type"
-                label="Course Type"
-                value={selectedType}
-                onChange={({ selectedValue }) => {
-                  setSelectedType(selectedValue)
-                  setValue("courseType", selectedValue, { shouldValidate: true })
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 md:gap-6 max-w-4xl">
+          <SearchAndSelect
+            name="courseType"
+            setValue={setValue}
+            placeholder="Select Course Type"
+            label="Course Type"
+            value={selectedType}
+            onChange={({ selectedValue }) => {
+              setSelectedType(selectedValue)
+              setValue("courseType", selectedValue, { shouldValidate: true })
 
-                  setSelectedCourse(undefined)
-                  setValue("course", undefined, { shouldValidate: true })
+              setSelectedCourse(undefined)
+              setValue("course", undefined, { shouldValidate: true })
 
-                  clearErrors("courseType")
-                  clearErrors("course")
+              clearErrors("courseType")
+              clearErrors("course")
 
-                  if (selectedValue?.text === "NEET UG") {
-                    getCoursesByType(selectedValue.text)
-                  }
+              if (selectedValue?.text === "NEET UG") {
+                getCoursesByType(selectedValue.text)
+              }
 
-                  updateURL({ courseType: selectedValue?.text || "", course: "" })
-                }}
-                control={control}
-                defaultOption={{ id: searchParams.get("courseType") || "", text: searchParams.get("courseType") || "" }}
-                options={predictorTypeList}
-                searchAPI={(txt, set) => autoComplete(txt, predictorTypeList, set)}
-                wrapperClass="w-full"
-                errors={errors}
-                disableSearch={true}
-              />
+              updateURL({ courseType: selectedValue?.text || "", course: "" })
+            }}
+            control={control}
+            defaultOption={{ id: searchParams.get("courseType") || "", text: searchParams.get("courseType") || "" }}
+            options={predictorTypeList}
+            searchAPI={(txt, set) => autoComplete(txt, predictorTypeList, set)}
+            wrapperClass="w-full"
+            errors={errors}
+            disableSearch={true}
+          />
 
-              {selectedType?.text === "NEET UG" && (
-                <SearchAndSelect
-                  setValue={setValue}
-                  name="course"
-                  label="Course"
-                  placeholder="Select Course (MBBS / BDS / BAMS...)"
-                  value={selectedCourse}
-                  onChange={({ selectedValue }) => {
-                    setSelectedCourse(selectedValue)
-                    setValue("course", selectedValue, { shouldValidate: true })
+          {selectedType?.text === "NEET UG" && (
+            <SearchAndSelect
+              setValue={setValue}
+              name="course"
+              label="Course"
+              placeholder="Select Course (MBBS / BDS / BAMS...)"
+              value={selectedCourse}
+              onChange={({ selectedValue }) => {
+                setSelectedCourse(selectedValue)
+                setValue("course", selectedValue, { shouldValidate: true })
 
-                    clearErrors("course")
+                clearErrors("course")
 
-                    updateURL({
-                      courseType: selectedType?.text || "",
-                      course: selectedValue?.text || ""
-                    })
-                  }}
-                  control={control}
-                  defaultOption={{ id: searchParams.get("course") || "", text: searchParams.get("course") || "" }}
-                  options={coursesList}
-                  loading={isCourseLoading}
-                  searchAPI={(txt, set) => autoComplete(txt, coursesList, set)}
-                  wrapperClass="w-full"
-                  errors={errors}
-                />
-              )}
-            </div>
-          </div>
+                updateURL({
+                  courseType: selectedType?.text || "",
+                  course: selectedValue?.text || ""
+                })
+              }}
+              control={control}
+              defaultOption={{ id: searchParams.get("course") || "", text: searchParams.get("course") || "" }}
+              options={coursesList}
+              loading={isCourseLoading}
+              searchAPI={(txt, set) => autoComplete(txt, coursesList, set)}
+              wrapperClass="w-full"
+              errors={errors}
+            />
+          )}
+        </div>
+      </div>
 
           {canShowStates ? (
             <>
