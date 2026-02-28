@@ -4,7 +4,8 @@ export default function WhyChooseUs() {
       icon: "Lightbulb",
       title: "Focused on Private and Deemed Medical Colleges",
       description:
-        "We specialize in providing accurate information exclusively for private and deemed medical colleges across India, helping you make informed decisions for both MBBS and MD/MS admissions.",
+        // "We specialize in providing accurate information exclusively for private and deemed medical colleges across India, helping you make informed decisions for both MBBS and MD/MS admissions.",
+        "We specialize in accurate NEET college prediction for private and deemed medical colleges across India, helping students secure MBBS, MD/MS, and other medical seats under management and NRI quotas.",
       color: "from-yellow-500/20 to-yellow-100/20",
       iconBg: "bg-yellow-100",
       iconColor: "text-yellow-600",
@@ -13,7 +14,8 @@ export default function WhyChooseUs() {
       icon: "Users",
       title: "Comprehensive Cutoff Data for MBBS and MD/MS",
       description:
-        "Access last year's detailed cutoff information — college-wise and category-wise — for MBBS and across all MD/MS specializations. This gives you complete clarity to plan your medical admission journey with confidence.",
+        // "Access last year's detailed cutoff information — college-wise and category-wise — for MBBS and across all MD/MS specializations. This gives you complete clarity to plan your medical admission journey with confidence.",
+        "Access detailed NEET cutoff data including college-wise and category-wise closing ranks for NEET UG, NEET PG and NEET MDS to understand your real admission chances.",
       color: "from-emerald-500/20 to-emerald-100/20",
       iconBg: "bg-emerald-100",
       iconColor: "text-emerald-600",
@@ -133,7 +135,10 @@ export default function WhyChooseUs() {
           <div className="inline-block rounded-full bg-yellow-100 px-4 py-1.5 text-sm font-medium text-yellow-800 shadow-sm border border-yellow-200 mb-4 ">
             WHAT SETS US APART
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold">Why Choose Us</h2>
+          <h2 className="text-3xl md:text-4xl font-bold">
+            {/* Why Choose Us */}
+            Why Choose Our NEET College Predictor
+          </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-yellow-500 to-emerald-500 mx-auto mt-2"></div>
         </div>
 

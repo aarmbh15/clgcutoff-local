@@ -6,6 +6,25 @@ import { Hero } from "@/components/frontend/landing-page/Hero"
 import HowItWorks from "@/components/frontend/landing-page/HowItWorks"
 import { StatsSection } from "@/components/frontend/landing-page/StatsSection"
 import WhyChooseUs from "@/components/frontend/landing-page/WhyChooseUS"
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "NEET College Predictor 2026 | MBBS, PG, MDS, DNB",
+  description:
+    "Use our free NEET 2026 College Predictor to check MBBS, NEET UG, NEET PG, NEET MDS, DNB & AIAPGET colleges based on your marks or rank. Get accurate state quota and government college predictions instantly.",
+  keywords: [
+    "neet college predictor",
+    "neet college predictor 2026",
+    "neet 2026 college predictor based on marks",
+    "neet college predictor based on rank",
+    "neet ug college predictor",
+    "neet pg college predictor",
+    "neet mds college predictor",
+    "aiapget 2026",
+    "dnb diploma",
+    "minimum marks required in neet for mbbs in government college"
+  ],
+};
 
 export default function Home() {
   return (

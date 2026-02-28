@@ -64,20 +64,47 @@ export default function FAQSection() {
 
   const [openIndex, setOpenIndex] = useState<number | null>(0)
 
+  // const faqs = [
+  //   {
+  //     question: "What is a closing rank in NEET counselling?",
+  //     answer: `The closing rank is the last rank at which admission was granted to a particular course in a specific college during the previous year’s counselling. If your rank is better than the closing rank, your chances of getting that seat are high.`,
+  //   },
+  //   {
+  //     question: "How does the college predictor tool work?",
+  //     answer: `The tool uses your NEET rank, category, state, and course preferences to compare with past admission data. Based on this, it predicts a list of colleges where you’re likely to get a seat.`,
+  //   },
+  //   {
+  //     question: "Is the college predictor accurate?",
+  //     answer: `College predictors are based on previous years' data, so they give a realistic estimate, not a guarantee. Seat availability, competition, and counseling rounds can affect actual results.`,
+  //   },
+  // ]
+
   const faqs = [
-    {
-      question: "What is a closing rank in NEET counselling?",
-      answer: `The closing rank is the last rank at which admission was granted to a particular course in a specific college during the previous year’s counselling. If your rank is better than the closing rank, your chances of getting that seat are high.`,
-    },
-    {
-      question: "How does the college predictor tool work?",
-      answer: `The tool uses your NEET rank, category, state, and course preferences to compare with past admission data. Based on this, it predicts a list of colleges where you’re likely to get a seat.`,
-    },
-    {
-      question: "Is the college predictor accurate?",
-      answer: `College predictors are based on previous years' data, so they give a realistic estimate, not a guarantee. Seat availability, competition, and counseling rounds can affect actual results.`,
-    },
-  ]
+  {
+    question: "What is NEET College Predictor 2026 and how does it work?",
+    answer: `NEET College Predictor 2026 is a tool that analyzes previous year NEET UG, NEET PG and NEET MDS counselling data to estimate your admission chances. It compares your rank or marks with past closing ranks and generates a list of possible government, private and deemed medical colleges under All India Quota and State Quota.`
+  },
+  {
+    question: "Can I use the NEET college predictor based on rank?",
+    answer: `Yes. You can use the NEET college predictor based on rank to check which colleges you may get according to your AIR (All India Rank). The system compares your rank with previous year NEET rank vs college data to provide realistic predictions.`
+  },
+  {
+    question: "Is there a NEET college predictor based on marks?",
+    answer: `Yes. If you only know your marks, you can use the NEET college predictor based on marks. The tool converts marks into expected rank using previous year trends and then predicts colleges accordingly.`
+  },
+  {
+    question: "What is the minimum marks required in NEET for MBBS in government college?",
+    answer: `The minimum marks required in NEET for MBBS in government college vary every year depending on difficulty level, competition and category. Generally, higher ranks increase chances in top government colleges, especially under All India Quota.`
+  },
+  {
+    question: "Does the predictor include State Quota colleges?",
+    answer: `Yes. Our NEET college predictor includes both All India Quota and State Quota counselling data. You can select your state to check colleges where you may have better chances under state reservation policies.`
+  },
+  {
+    question: "Is NEET college predictor 100% accurate?",
+    answer: `No predictor can guarantee admission because actual results depend on counselling rounds, seat availability and student preferences. However, our predictions are based on previous year official counselling data to give you a realistic estimate.`
+  }
+]
 
   const toggleFAQ = (index: number) => {
     setOpenIndex(openIndex === index ? null : index)
@@ -99,13 +126,15 @@ export default function FAQSection() {
           <h2
             className={`text-3xl font-bold tracking-tighter sm:text-4xl md:text-4xl`}
           >
-            Frequently Asked Questions by the students
+            {/* Frequently Asked Questions by the students */}
+            NEET College Predictor 2026 – Frequently Asked Questions
           </h2>
           <p
             className={`max-w-[900px] md:text-xl/relaxed ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}
           >
-            Find answers to commonly asked questions about our college predictor
-            and counselling services
+            {/* Find answers to commonly asked questions about our college predictor
+            and counselling services */}
+            Find answers to common questions about NEET college predictor based on rank, marks, state quota counselling and government college cutoffs.
           </p>
         </div>
 

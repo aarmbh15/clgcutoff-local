@@ -25,10 +25,12 @@ export default function HowItWorks() {
       <div className="container px-4 md:px-6 mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-color-table-header">
-            How It Works
+            {/* How It Works */}
+            How NEET College Predictor 2026 Works
           </h2>
           <p className="text-gray-500 mt-2 max-w-2xl mx-auto">
-            Simple steps to find your perfect medical college match
+            {/* Simple steps to find your perfect medical college match */}
+            Simple steps to predict colleges based on NEET rank, marks or percentile
           </p>
         </div>
 
