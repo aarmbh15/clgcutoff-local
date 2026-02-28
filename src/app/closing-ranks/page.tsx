@@ -291,6 +291,7 @@ export default function ClosingRanks() {
               searchAPI={(txt, set) => autoComplete(txt, coursesList, set)}
               wrapperClass="w-full"
               errors={errors}
+              disableSearch={true}
             />
           )}
         </div>

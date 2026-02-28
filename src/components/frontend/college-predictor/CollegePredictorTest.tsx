@@ -634,6 +634,7 @@ export function CollegePredictorTest() {
               autoComplete(text, stateList, setOptions)
             }
             errors={errors}
+            disableSearch={true}
           />
         )}
 
@@ -676,6 +677,7 @@ export function CollegePredictorTest() {
                 autoComplete(text, quotasList, setOptions)
               }
               errors={errors}
+              disableSearch={true}
             />
 
           </div>
@@ -714,6 +716,7 @@ export function CollegePredictorTest() {
                 autoComplete(text, categoriesList, setOptions)
               }
               errors={errors}
+              disableSearch={true}
             />
             
           </div>
