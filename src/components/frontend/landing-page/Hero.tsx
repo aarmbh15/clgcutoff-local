@@ -172,11 +172,6 @@ export function Hero() {
     </div>
 
     {/* Trust Proof */}
-    {/* <div className="flex justify-center pt-6">
-      <div className="bg-white shadow-md rounded-full px-6 py-3 text-sm md:text-base font-semibold text-gray-700">
-        🔍 12,000+ Students Already Checked Their Chances
-      </div>
-    </div> */}
     <div className="flex justify-center pt-3 md:pt-6">
       <div className="bg-gray-100 rounded-full px-4 py-2 text-xs md:text-sm font-medium text-gray-700">
         12,000+ Students Checked Their Chances
