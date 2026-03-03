@@ -11,7 +11,8 @@ import type { Metadata } from "next"
 export const metadata: Metadata = {
   title: "NEET College Predictor 2026 | MBBS, PG, MDS, DNB",
   description:
-    "Use our free NEET 2026 College Predictor to check MBBS, NEET UG, NEET PG, NEET MDS, DNB & AIAPGET colleges based on your marks or rank. Get accurate state quota and government college predictions instantly.",
+    // "Use our free NEET 2026 College Predictor to check MBBS, NEET UG, NEET PG, NEET MDS, DNB & AIAPGET colleges based on your marks or rank. Get accurate state quota and government college predictions instantly.",
+    "Use collegecutoff.net NEET College Predictor 2026 to check MBBS, BDS, BAMS, PG (MD, MS), MDS, DNB, NEET SS and Ayurveda PG colleges by rank or marks. Get accurate AIQ and State Quota closing ranks with official counselling data.",
   keywords: [
     "neet college predictor",
     "neet college predictor 2026",
