@@ -20,10 +20,26 @@ export function generateCols(
 ) {
   let currentYear = new Date().getFullYear()-1
   let previousYear = currentYear - 1
+  // const percentile_Marks =
+  //   courseType?.includes("UG") || courseType?.includes("MDS")
+  //     ? "Marks"
+  //     : "Percentile"
+
+  const normalizedCourseType = courseType?.toUpperCase() || ""
+
+  const isNeetPG = normalizedCourseType.includes("NEET PG")
+
   const percentile_Marks =
-    courseType?.includes("UG") || courseType?.includes("MDS")
+    normalizedCourseType.includes("UG") ||
+    normalizedCourseType.includes("MDS")
       ? "Marks"
       : "Percentile"
+
+  // Override ONLY for NEET PG in 2025
+  const displayTypeForCurrentYear =
+    isNeetPG && currentYear === 2025
+      ? "Marks"
+      : percentile_Marks
 
   if (!isEmpty(configYear)) {
     previousYear = configYear[0]
@@ -54,11 +70,17 @@ export function generateCols(
 
     {
       title: (
+        // <div
+        //   data-tooltip-id="tooltip"
+        //   data-tooltip-content={`Closing Rank/ ${percentile_Marks} Round 1 ${currentYear}`}
+        // >
+        //   {`Closing Rank/ ${percentile_Marks} [R1] ${currentYear}`}
+        // </div>
         <div
           data-tooltip-id="tooltip"
-          data-tooltip-content={`Closing Rank/ ${percentile_Marks} Round 1 ${currentYear}`}
+          data-tooltip-content={`Closing Rank/ ${displayTypeForCurrentYear} Round 1 ${currentYear}`}
         >
-          {`Closing Rank/ ${percentile_Marks} [R1] ${currentYear}`}
+          {`Closing Rank/ ${displayTypeForCurrentYear} [R1] ${currentYear}`}
         </div>
       ),
       tableKey: `showClosingRankR1`,
@@ -81,11 +103,17 @@ export function generateCols(
     },
     {
       title: (
+        // <div
+        //   data-tooltip-id="tooltip"
+        //   data-tooltip-content={`Closing Rank/ ${percentile_Marks} Round 2 ${currentYear}`}
+        // >
+        //   {`Closing Rank/ ${percentile_Marks} [R2] ${currentYear}`}
+        // </div>
         <div
           data-tooltip-id="tooltip"
-          data-tooltip-content={`Closing Rank/ ${percentile_Marks} Round 2 ${currentYear}`}
+          data-tooltip-content={`Closing Rank/ ${displayTypeForCurrentYear} Round 2 ${currentYear}`}
         >
-          {`Closing Rank/ ${percentile_Marks} [R2] ${currentYear}`}
+          {`Closing Rank/ ${displayTypeForCurrentYear} [R2] ${currentYear}`}
         </div>
       ),
       tableKey: `showClosingRankR2`,
@@ -108,11 +136,17 @@ export function generateCols(
     },
     {
       title: (
+        // <div
+        //   data-tooltip-id="tooltip"
+        //   data-tooltip-content={`Closing Rank/ ${percentile_Marks} Round 3 ${currentYear}`}
+        // >
+        //   {`Closing Rank/ ${percentile_Marks} [R3] ${currentYear}`}
+        // </div>
         <div
           data-tooltip-id="tooltip"
-          data-tooltip-content={`Closing Rank/ ${percentile_Marks} Round 3 ${currentYear}`}
+          data-tooltip-content={`Closing Rank/ ${displayTypeForCurrentYear} Round 3 ${currentYear}`}
         >
-          {`Closing Rank/ ${percentile_Marks} [R3] ${currentYear}`}
+          {`Closing Rank/ ${displayTypeForCurrentYear} [R3] ${currentYear}`}
         </div>
       ),
       tableKey: `showClosingRankR3`,
@@ -135,11 +169,17 @@ export function generateCols(
     },
     {
       title: (
+        // <div
+        //   data-tooltip-id="tooltip"
+        //   data-tooltip-content={`Stray Round Rank/ ${percentile_Marks} ${currentYear}`}
+        // >
+        //   {`Stray Round Rank/ ${percentile_Marks} ${currentYear}`}
+        // </div>
         <div
           data-tooltip-id="tooltip"
-          data-tooltip-content={`Stray Round Rank/ ${percentile_Marks} ${currentYear}`}
+          data-tooltip-content={`Stray Round Rank/ ${displayTypeForCurrentYear} ${currentYear}`}
         >
-          {`Stray Round Rank/ ${percentile_Marks} ${currentYear}`}
+          {`Stray Round Rank/ ${displayTypeForCurrentYear} ${currentYear}`}
         </div>
       ),
       tableKey: `showStrayRound`,
@@ -162,11 +202,17 @@ export function generateCols(
     },
     {
       title: (
+        // <div
+        //   data-tooltip-id="tooltip"
+        //   data-tooltip-content={`Last Stray Round Rank/ ${percentile_Marks} ${currentYear}`}
+        // >
+        //   Last {`Stray Round Rank/ ${percentile_Marks} ${currentYear}`}
+        // </div>
         <div
           data-tooltip-id="tooltip"
-          data-tooltip-content={`Last Stray Round Rank/ ${percentile_Marks} ${currentYear}`}
+          data-tooltip-content={`Last Stray Round Rank/ ${displayTypeForCurrentYear} ${currentYear}`}
         >
-          Last {`Stray Round Rank/ ${percentile_Marks} ${currentYear}`}
+          Last {`Stray Round Rank/ ${displayTypeForCurrentYear} ${currentYear}`}
         </div>
       ),
       tableKey: `showLastStrayRound`,
@@ -459,11 +505,27 @@ export function generateColsPublic(
 
   // console.log(paid,courseType)
 
+  // const percentile_Marks =
+  //   courseType?.toUpperCase().includes("UG") ||
+  //   courseType?.toUpperCase().includes("MDS")
+  //     ? "Marks"
+  //     : "Percentile"
+
+  const normalizedCourseType = courseType?.toUpperCase() || ""
+
+  const isNeetPG = normalizedCourseType.includes("NEET PG")
+
   const percentile_Marks =
-    courseType?.toUpperCase().includes("UG") ||
-    courseType?.toUpperCase().includes("MDS")
+    normalizedCourseType.includes("UG") ||
+    normalizedCourseType.includes("MDS")
       ? "Marks"
       : "Percentile"
+
+  // Override ONLY for NEET PG in 2025
+  const displayTypeForCurrentYear =
+    isNeetPG && currentYear === 2025
+      ? "Marks"
+      : percentile_Marks
 
   if (!isEmpty(configYear)) {
     previousYear = configYear[0]
@@ -492,11 +554,17 @@ export function generateColsPublic(
     { title: "Sub-Category", tableKey: "subCategory", width: "150px" },
     {
       title: (
+        // <div
+        //   data-tooltip-id="tooltip"
+        //   data-tooltip-content={`Closing Rank/ ${percentile_Marks} Round 1 ${currentYear}`}
+        // >
+        //   {`Closing Rank/ ${percentile_Marks} [R1] ${currentYear}`}
+        // </div>
         <div
           data-tooltip-id="tooltip"
-          data-tooltip-content={`Closing Rank/ ${percentile_Marks} Round 1 ${currentYear}`}
+          data-tooltip-content={`Closing Rank/ ${displayTypeForCurrentYear} Round 1 ${currentYear}`}
         >
-          {`Closing Rank/ ${percentile_Marks} [R1] ${currentYear}`}
+          {`Closing Rank/ ${displayTypeForCurrentYear} [R1] ${currentYear}`}
         </div>
       ),
       tableKey: `showClosingRankR1`,
@@ -520,11 +588,17 @@ export function generateColsPublic(
 
   ...(courseType?.toUpperCase().includes("UG")?[ {
       title: (
+        // <div
+        //   data-tooltip-id="tooltip"
+        //   data-tooltip-content={`Closing Rank/ ${percentile_Marks} Round 2 ${currentYear}`}
+        // >
+        //   {`Closing Rank/ ${percentile_Marks} [R2] ${currentYear}`}
+        // </div>
         <div
           data-tooltip-id="tooltip"
-          data-tooltip-content={`Closing Rank/ ${percentile_Marks} Round 2 ${currentYear}`}
+          data-tooltip-content={`Closing Rank/ ${displayTypeForCurrentYear} Round 2 ${currentYear}`}
         >
-          {`Closing Rank/ ${percentile_Marks} [R2] ${currentYear}`}
+          {`Closing Rank/ ${displayTypeForCurrentYear} [R2] ${currentYear}`}
         </div>
       ),
       tableKey: `showClosingRankR2`,
@@ -547,11 +621,17 @@ export function generateColsPublic(
     },
     {
       title: (
+        // <div
+        //   data-tooltip-id="tooltip"
+        //   data-tooltip-content={`Closing Rank/ ${percentile_Marks} Round 3 ${currentYear}`}
+        // >
+        //   {`Closing Rank/ ${percentile_Marks} [R3] ${currentYear}`}
+        // </div>
         <div
           data-tooltip-id="tooltip"
-          data-tooltip-content={`Closing Rank/ ${percentile_Marks} Round 3 ${currentYear}`}
+          data-tooltip-content={`Closing Rank/ ${displayTypeForCurrentYear} Round 3 ${currentYear}`}
         >
-          {`Closing Rank/ ${percentile_Marks} [R3] ${currentYear}`}
+          {`Closing Rank/ ${displayTypeForCurrentYear} [R3] ${currentYear}`}
         </div>
       ),
       tableKey: `showClosingRankR3`,
@@ -574,11 +654,17 @@ export function generateColsPublic(
     },
     {
       title: (
+        // <div
+        //   data-tooltip-id="tooltip"
+        //   data-tooltip-content={`Stray Round Rank/ ${percentile_Marks} ${currentYear}`}
+        // >
+        //   {`Stray Round Rank/ ${percentile_Marks} ${currentYear}`}
+        // </div>
         <div
           data-tooltip-id="tooltip"
-          data-tooltip-content={`Stray Round Rank/ ${percentile_Marks} ${currentYear}`}
+          data-tooltip-content={`Stray Round Rank/ ${displayTypeForCurrentYear} ${currentYear}`}
         >
-          {`Stray Round Rank/ ${percentile_Marks} ${currentYear}`}
+          {`Stray Round Rank/ ${displayTypeForCurrentYear} ${currentYear}`}
         </div>
       ),
       tableKey: `showStrayRound`,
@@ -601,11 +687,17 @@ export function generateColsPublic(
     },
     {
       title: (
+        // <div
+        //   data-tooltip-id="tooltip"
+        //   data-tooltip-content={`Last Stray Round Rank/ ${percentile_Marks} ${currentYear}`}
+        // >
+        //   Last {`Stray Round Rank/ ${percentile_Marks} ${currentYear}`}
+        // </div>
         <div
           data-tooltip-id="tooltip"
-          data-tooltip-content={`Last Stray Round Rank/ ${percentile_Marks} ${currentYear}`}
+          data-tooltip-content={`Last Stray Round Rank/ ${displayTypeForCurrentYear} ${currentYear}`}
         >
-          Last {`Stray Round Rank/ ${percentile_Marks} ${currentYear}`}
+          Last {`Stray Round Rank/ ${displayTypeForCurrentYear} ${currentYear}`}
         </div>
       ),
       tableKey: `showLastStrayRound`,
