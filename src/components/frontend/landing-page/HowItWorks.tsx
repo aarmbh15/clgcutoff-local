@@ -21,7 +21,7 @@ import WhyChooseUs from "./WhyChooseUS"
 
 export default function HowItWorks() {
   return (
-    <section className="w-full py-20 md:py-28 relative overflow-hidden">
+    <section id="how-it-works"  className="w-full py-20 md:py-28 relative overflow-hidden">
       <div className="container px-4 md:px-6 mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-color-table-header">

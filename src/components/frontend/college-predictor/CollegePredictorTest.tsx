@@ -17,6 +17,7 @@ import {
 import { useRouter } from "next/navigation"
 import { useEffect, useRef, useState } from "react"
 import { useForm } from "react-hook-form"
+import React from "react"
 
 // const domicileStates: IOption[] = states.slice(1)
 
@@ -389,351 +390,718 @@ export function CollegePredictorTest() {
 
   const isNeetUG = formData?.courseType?.text === "NEET UG"
 
-  return (
-    <Card className="mt-2 tab:mx-16 p-7 tab:p-10">
-      <form className="flex flex-col gap-6" onSubmit={handleSubmit(onSubmit)}>
-        <div className="space-y-2">
-          <h3 className="text-[25px] pc:text-4xl font-bold text-center">
-            Predict Your College
-          </h3>
-          <p className="text-base text-gray-500 text-center poppinsFont">
-            Enter your details to find the best college matches
-          </p>
-        </div>
+//   return (
+//     <Card className="mt-2 tab:mx-16 p-7 tab:p-10">
+//       <form className="flex flex-col gap-6" onSubmit={handleSubmit(onSubmit)}>
+//         <div className="space-y-2">
+//           <h3 className="text-[25px] pc:text-4xl font-bold text-center">
+//             Predict Your College
+//           </h3>
+//           <p className="text-base text-gray-500 text-center poppinsFont">
+//             Enter your details to find the best college matches
+//           </p>
+//         </div>
 
-        <SearchAndSelect
-          name="predictor Type"
-          label="Pedictor Type"
-          placeholder="Select Predictor Type"
-          value={formData?.courseType}
-          // isSearchable={false} 
-          onChange={({ name, selectedValue }) => {
-            onOptionSelected(name, selectedValue, setFormData)
-            // console.log(selectedValue)
-            if (selectedValue?.text)
-              getCoursesBasedOncourseType(selectedValue?.text)
-            setFormData((prev) => ({
-              ...prev,
-              courseType: selectedValue,
-              courses:undefined,
-              counsellingType: undefined,
+//         <SearchAndSelect
+//           name="predictor Type"
+//           label="Pedictor Type"
+//           placeholder="Select Predictor Type"
+//           value={formData?.courseType}
+//           // isSearchable={false} 
+//           onChange={({ name, selectedValue }) => {
+//             onOptionSelected(name, selectedValue, setFormData)
+//             // console.log(selectedValue)
+//             if (selectedValue?.text)
+//               getCoursesBasedOncourseType(selectedValue?.text)
+//             setFormData((prev) => ({
+//               ...prev,
+//               courseType: selectedValue,
+//               courses:undefined,
+//               counsellingType: undefined,
               
-            }))
+//             }))
 
 
-            const neetBasedExams = [
-              "NEET UG",
-              "NEET MDS",
-              "NEET SS",
-              "AIAPGET (Ayurveda)",
-            ]
+//             const neetBasedExams = [
+//               "NEET UG",
+//               "NEET MDS",
+//               "NEET SS",
+//               "AIAPGET (Ayurveda)",
+//             ]
 
-            if (
-              selectedValue?.text &&
-              neetBasedExams.includes(selectedValue.text)
-            ) {
-              setRadioOption(["Rank", "Marks"])
-            } else {
-              setRadioOption(["Rank", "Percentile"])
-            }
-          }}
-          loading = {isCourseTypeLoading}
-          control={control}
-          setValue={setValue}
-          required
-          options={courseTypeList}
-          debounceDelay={0}
+//             if (
+//               selectedValue?.text &&
+//               neetBasedExams.includes(selectedValue.text)
+//             ) {
+//               setRadioOption(["Rank", "Marks"])
+//             } else {
+//               setRadioOption(["Rank", "Percentile"])
+//             }
+//           }}
+//           loading = {isCourseTypeLoading}
+//           control={control}
+//           setValue={setValue}
+//           required
+//           options={courseTypeList}
+//           debounceDelay={0}
           
-      wrapperClass="w-full"
-          searchAPI={(text, setOptions) =>
-            autoComplete(text, courseTypeList, setOptions)
-          }
-          errors={errors}
-          disableSearch={true}
-        />
-        {/* <SearchAndSelect
-  name="predictorType"
-  label="Predictor Type"
-  placeholder="Select Predictor Type"
-  value={formData?.courseType}
-  onChange={({ name, selectedValue }) => {
-    onOptionSelected(name, selectedValue, setFormData)
+//       wrapperClass="w-full"
+//           searchAPI={(text, setOptions) =>
+//             autoComplete(text, courseTypeList, setOptions)
+//           }
+//           errors={errors}
+//           disableSearch={true}
+//         />
+//         {/* <SearchAndSelect
+//   name="predictorType"
+//   label="Predictor Type"
+//   placeholder="Select Predictor Type"
+//   value={formData?.courseType}
+//   onChange={({ name, selectedValue }) => {
+//     onOptionSelected(name, selectedValue, setFormData)
 
-    if (selectedValue?.text)
-      getCoursesBasedOncourseType(selectedValue?.text)
+//     if (selectedValue?.text)
+//       getCoursesBasedOncourseType(selectedValue?.text)
 
-    setFormData((prev) => ({
-      ...prev,
-      courseType: selectedValue,
-      courses: undefined,
-      counsellingType: undefined,
-    }))
+//     setFormData((prev) => ({
+//       ...prev,
+//       courseType: selectedValue,
+//       courses: undefined,
+//       counsellingType: undefined,
+//     }))
 
-    const neetBasedExams = [
-      "NEET UG",
-      "NEET MDS",
-      "NEET SS",
-      "AIAPGET (Ayurveda)",
-    ]
+//     const neetBasedExams = [
+//       "NEET UG",
+//       "NEET MDS",
+//       "NEET SS",
+//       "AIAPGET (Ayurveda)",
+//     ]
 
-    if (
-      selectedValue?.text &&
-      neetBasedExams.includes(selectedValue.text)
-    ) {
-      setRadioOption(["Rank", "Marks"])
-    } else {
-      setRadioOption(["Rank", "Percentile"])
-    }
-  }}
-  loading={isCourseTypeLoading}
-  control={control}
-  setValue={setValue}
-  required
-  options={courseTypeList}
-  wrapperClass="w-full"
-  errors={errors}
-/> */}
+//     if (
+//       selectedValue?.text &&
+//       neetBasedExams.includes(selectedValue.text)
+//     ) {
+//       setRadioOption(["Rank", "Marks"])
+//     } else {
+//       setRadioOption(["Rank", "Percentile"])
+//     }
+//   }}
+//   loading={isCourseTypeLoading}
+//   control={control}
+//   setValue={setValue}
+//   required
+//   options={courseTypeList}
+//   wrapperClass="w-full"
+//   errors={errors}
+// /> */}
 
 
-        <p>What do you have ?</p>
+//         <p>What do you have ?</p>
 
-        <div className="flex space-x-6 mt-[-20px]">
-          {radioOption.map((option) => (
-            <label
-              key={option}
-              className="relative flex items-center space-x-2 cursor-pointer text-color-text"
-            >
-              <input
-                type="radio"
-                name="rankOrMarks"
-                value={option}
-                checked={selected === option}
-                onChange={() => setSelected(option)}
-                className="peer hidden"
-              />
-              <div className="w-4 h-4 rounded-full border border-gray-300 peer-checked:bg-orange-500 flex items-center justify-center">
-                <div className="w-2.5 h-2.5 bg-white rounded-full peer-checked:opacity-100 opacity-0 transition-opacity"></div>
-              </div>
-              <span className="peer-checked:text-orange-500 ">{option}</span>
-            </label>
-          ))}
-        </div>
+//         <div className="flex space-x-6 mt-[-20px]">
+//           {radioOption.map((option) => (
+//             <label
+//               key={option}
+//               className="relative flex items-center space-x-2 cursor-pointer text-color-text"
+//             >
+//               <input
+//                 type="radio"
+//                 name="rankOrMarks"
+//                 value={option}
+//                 checked={selected === option}
+//                 onChange={() => setSelected(option)}
+//                 className="peer hidden"
+//               />
+//               <div className="w-4 h-4 rounded-full border border-gray-300 peer-checked:bg-orange-500 flex items-center justify-center">
+//                 <div className="w-2.5 h-2.5 bg-white rounded-full peer-checked:opacity-100 opacity-0 transition-opacity"></div>
+//               </div>
+//               <span className="peer-checked:text-orange-500 ">{option}</span>
+//             </label>
+//           ))}
+//         </div>
 
-        <Input
-          name="rank"
-          label={selected || "Rank"}
-          type="number"
-          placeholder={`Enter your ${selected || "Rank"}`}
-          setValue={setValue}
-          value={formData?.rank}
-          onChange={(e) => {
-            onTextFieldChange(e, setFormData)
-            clearErrors("rank")
-          }}
-          control={control}
-          rules={{
-            required: false,
-          }}
-          errors={errors}
-        />
-        <SearchAndSelect
-          name="courses"
-          label="Course"
-          placeholder="Select your Course"
-          value={formData?.courses}
-          onChange={({ name, selectedValue }) => {
-            onOptionSelected(name, selectedValue, setFormData)
-          }}
-          control={control}
-          setValue={setValue}
-          options={coursesList}
-          debounceDelay={0}
-          searchAPI={(text, setOptions) =>
-            autoComplete(text, coursesList, setOptions)
-          }
-          loading={isCourseLoading}
-          errors={errors}
-             wrapperClass="w-full"
-          disabled={isEmpty(formData?.courseType?.text)}
-          disableSearch={true}
+//         <Input
+//           name="rank"
+//           label={selected || "Rank"}
+//           type="number"
+//           placeholder={`Enter your ${selected || "Rank"}`}
+//           setValue={setValue}
+//           value={formData?.rank}
+//           onChange={(e) => {
+//             onTextFieldChange(e, setFormData)
+//             clearErrors("rank")
+//           }}
+//           control={control}
+//           rules={{
+//             required: false,
+//           }}
+//           errors={errors}
+//         />
+//         <SearchAndSelect
+//           name="courses"
+//           label="Course"
+//           placeholder="Select your Course"
+//           value={formData?.courses}
+//           onChange={({ name, selectedValue }) => {
+//             onOptionSelected(name, selectedValue, setFormData)
+//           }}
+//           control={control}
+//           setValue={setValue}
+//           options={coursesList}
+//           debounceDelay={0}
+//           searchAPI={(text, setOptions) =>
+//             autoComplete(text, coursesList, setOptions)
+//           }
+//           loading={isCourseLoading}
+//           errors={errors}
+//              wrapperClass="w-full"
+//           disabled={isEmpty(formData?.courseType?.text)}
+//           disableSearch={true}
           
-        />
+//         />
 
 
-        <SearchAndSelect
-          name="counselling Type"
-          label="Counselling Type"
-          placeholder="Select Counselling Type"
-          value={formData?.counsellingType}
-          onChange={({ name, selectedValue }) => {
-            onOptionSelected(name, selectedValue, setFormData)
+//         <SearchAndSelect
+//           name="counselling Type"
+//           label="Counselling Type"
+//           placeholder="Select Counselling Type"
+//           value={formData?.counsellingType}
+//           onChange={({ name, selectedValue }) => {
+//             onOptionSelected(name, selectedValue, setFormData)
       
-            setFormData((prev) => ({
-              ...prev,
-              counsellingType: selectedValue,
-              state: undefined,
-              quotas: undefined,
-              categories: undefined,
-            }))
+//             setFormData((prev) => ({
+//               ...prev,
+//               counsellingType: selectedValue,
+//               state: undefined,
+//               quotas: undefined,
+//               categories: undefined,
+//             }))
 
-            setQuotasList([])
-            setCategoriesList([])
-          }}
-          control={control}
-          setValue={setValue}
-          required
-          options={filteredCounsellingTypeDataList}
-          debounceDelay={0}
-          disabled={!formData?.courseType?.id}
-          defaultOption={defaultValues?.filteredCounsellingTypeDataList}
-          wrapperClass="w-full"
-          searchAPI={(text, setOptions) =>
-            autoComplete(text, filteredCounsellingTypeDataList, setOptions)
-          }
-          errors={errors}
-          disableSearch={true}
+//             setQuotasList([])
+//             setCategoriesList([])
+//           }}
+//           control={control}
+//           setValue={setValue}
+//           required
+//           options={filteredCounsellingTypeDataList}
+//           debounceDelay={0}
+//           disabled={!formData?.courseType?.id}
+//           defaultOption={defaultValues?.filteredCounsellingTypeDataList}
+//           wrapperClass="w-full"
+//           searchAPI={(text, setOptions) =>
+//             autoComplete(text, filteredCounsellingTypeDataList, setOptions)
+//           }
+//           errors={errors}
+//           disableSearch={true}
           
           
-        />
-        {formData?.counsellingType?.id == 2 && (
-          <SearchAndSelect
-            name="state"
-            label="State"
-            placeholder="Search and Select"
-            value={formData?.state}
+//         />
+//         {formData?.counsellingType?.id == 2 && (
+//           <SearchAndSelect
+//             name="state"
+//             label="State"
+//             placeholder="Search and Select"
+//             value={formData?.state}
            
-            onChange={({ name, selectedValue }) => {
-              onOptionSelected(name, selectedValue, setFormData)
+//             onChange={({ name, selectedValue }) => {
+//               onOptionSelected(name, selectedValue, setFormData)
 
-              setFormData((prev) => ({
-                ...prev,
-                state: selectedValue,
-                quotas: undefined,
-                categories: undefined,
-                subQuota: undefined, // <-- Add this
-                subCategory: undefined, // <-- Add this
-              }))
+//               setFormData((prev) => ({
+//                 ...prev,
+//                 state: selectedValue,
+//                 quotas: undefined,
+//                 categories: undefined,
+//                 subQuota: undefined, // <-- Add this
+//                 subCategory: undefined, // <-- Add this
+//               }))
 
-              setQuotasList([])
-              setCategoriesList([])
-              setSubQuotasList([]) // <-- Add this
-              setSubCategoriesList([]) // <-- Add this
-            }}
-            loading = {isStateLoading}
-            control={control}
-            setValue={setValue}
-            required
-             disabled={
-                isStateLoading
-              }
-            options={stateList}
-            debounceDelay={0}
-            defaultOption={defaultValues?.state}
-               wrapperClass="w-full"
-            searchAPI={(text, setOptions) =>
-              autoComplete(text, stateList, setOptions)
-            }
-            errors={errors}
-            disableSearch={true}
-          />
-        )}
+//               setQuotasList([])
+//               setCategoriesList([])
+//               setSubQuotasList([]) // <-- Add this
+//               setSubCategoriesList([]) // <-- Add this
+//             }}
+//             loading = {isStateLoading}
+//             control={control}
+//             setValue={setValue}
+//             required
+//              disabled={
+//                 isStateLoading
+//               }
+//             options={stateList}
+//             debounceDelay={0}
+//             defaultOption={defaultValues?.state}
+//                wrapperClass="w-full"
+//             searchAPI={(text, setOptions) =>
+//               autoComplete(text, stateList, setOptions)
+//             }
+//             errors={errors}
+//             disableSearch={true}
+//           />
+//         )}
 
-        {isNeetUG && (
-          <div className="flex items-center flex-wrap gap-2">
-            <SearchAndSelect
-              name="quotas"
-              label="Quota"
-              placeholder="Select Quota"
-              value={formData?.quotas}
-              onChange={({ name, selectedValue }) => {
-                onOptionSelected(name, selectedValue, setFormData)
-                setFormData((prev) => ({
-                  ...prev,
-                  quotas: selectedValue,
-                  subQuota: undefined,
-                  categories: undefined,
-                  subCategory: undefined,
-                }))
-                setCategoriesList([])
-                setSubCategoriesList([])
-                const found = quotasList.find((q) => q.id === selectedValue?.id)
-                const subs = found?.sub_quotas || []
-                setSubQuotasList(subs)
-              }}
-              control={control}
-              setValue={setValue}
-              required
-              options={quotasList}
-              debounceDelay={0}
-              loading={isQuotaLoading}
-              disabled={
-                !formData?.courseType?.id ||
-                !formData?.counsellingType?.id ||
-                (formData?.counsellingType?.id == 2 && !formData?.state?.id)
-              }
-              defaultOption={defaultValues?.quotas}
-       wrapperClass="w-full"
-              searchAPI={(text, setOptions) =>
-                autoComplete(text, quotasList, setOptions)
-              }
-              errors={errors}
-              disableSearch={true}
-            />
+//         {isNeetUG && (
+//           <div className="flex items-center flex-wrap gap-2">
+//             <SearchAndSelect
+//               name="quotas"
+//               label="Quota"
+//               placeholder="Select Quota"
+//               value={formData?.quotas}
+//               onChange={({ name, selectedValue }) => {
+//                 onOptionSelected(name, selectedValue, setFormData)
+//                 setFormData((prev) => ({
+//                   ...prev,
+//                   quotas: selectedValue,
+//                   subQuota: undefined,
+//                   categories: undefined,
+//                   subCategory: undefined,
+//                 }))
+//                 setCategoriesList([])
+//                 setSubCategoriesList([])
+//                 const found = quotasList.find((q) => q.id === selectedValue?.id)
+//                 const subs = found?.sub_quotas || []
+//                 setSubQuotasList(subs)
+//               }}
+//               control={control}
+//               setValue={setValue}
+//               required
+//               options={quotasList}
+//               debounceDelay={0}
+//               loading={isQuotaLoading}
+//               disabled={
+//                 !formData?.courseType?.id ||
+//                 !formData?.counsellingType?.id ||
+//                 (formData?.counsellingType?.id == 2 && !formData?.state?.id)
+//               }
+//               defaultOption={defaultValues?.quotas}
+//        wrapperClass="w-full"
+//               searchAPI={(text, setOptions) =>
+//                 autoComplete(text, quotasList, setOptions)
+//               }
+//               errors={errors}
+//               disableSearch={true}
+//             />
 
-          </div>
-        )}
+//           </div>
+//         )}
 
-        {isNeetUG && (
-          <div className="flex items-center flex-wrap gap-2">
-            <SearchAndSelect
-              name="categories"
-              label="Category"
-              placeholder="Select Category"
-              value={formData?.categories}
-              onChange={({ name, selectedValue }) => {
-                onOptionSelected(name, selectedValue, setFormData)
-                setFormData((prev) => ({
-                  ...prev,
-                  categories: selectedValue,
-                  subCategory: undefined,
-                }))
-                const found = categoriesList.find(
-                  (cat) => cat.id === selectedValue?.id,
-                )
-                const subs = found?.otherValues?.sub_categories || []
-                setSubCategoriesList(subs)
-              }}
-              control={control}
-              setValue={setValue}
-              required
-              options={categoriesList}
-              debounceDelay={0}
-              defaultOption={defaultValues?.categories}
-              loading = {isCategoryLaoding}
-              disabled={!formData?.quotas?.id}
-   wrapperClass="w-full"
-              searchAPI={(text, setOptions) =>
-                autoComplete(text, categoriesList, setOptions)
-              }
-              errors={errors}
-              disableSearch={true}
-            />
+//         {isNeetUG && (
+//           <div className="flex items-center flex-wrap gap-2">
+//             <SearchAndSelect
+//               name="categories"
+//               label="Category"
+//               placeholder="Select Category"
+//               value={formData?.categories}
+//               onChange={({ name, selectedValue }) => {
+//                 onOptionSelected(name, selectedValue, setFormData)
+//                 setFormData((prev) => ({
+//                   ...prev,
+//                   categories: selectedValue,
+//                   subCategory: undefined,
+//                 }))
+//                 const found = categoriesList.find(
+//                   (cat) => cat.id === selectedValue?.id,
+//                 )
+//                 const subs = found?.otherValues?.sub_categories || []
+//                 setSubCategoriesList(subs)
+//               }}
+//               control={control}
+//               setValue={setValue}
+//               required
+//               options={categoriesList}
+//               debounceDelay={0}
+//               defaultOption={defaultValues?.categories}
+//               loading = {isCategoryLaoding}
+//               disabled={!formData?.quotas?.id}
+//    wrapperClass="w-full"
+//               searchAPI={(text, setOptions) =>
+//                 autoComplete(text, categoriesList, setOptions)
+//               }
+//               errors={errors}
+//               disableSearch={true}
+//             />
             
-          </div>
-        )}
+//           </div>
+//         )}
 
-        <Button
-          className="mt-6"
-          onClick={onSubmit}
-          // data-tooltip-id={"tooltip"}
-          // data-tooltip-content="Coming Soon"
-          disabled={disableCheck()}
-          // disabled
-        >
-          Predict My College
-        </Button>
-      </form>
-    </Card>
-  )
+//         <Button
+//           className="mt-6"
+//           onClick={onSubmit}
+//           // data-tooltip-id={"tooltip"}
+//           // data-tooltip-content="Coming Soon"
+//           disabled={disableCheck()}
+//           // disabled
+//         >
+//           Predict My College
+//         </Button>
+//       </form>
+//     </Card>
+//   )
+
+
+
+const [step, setStep] = React.useState(1)
+
+const nextStep = () => setStep((prev) => prev + 1)
+const prevStep = () => setStep((prev) => prev - 1)
+
+return (
+<Card className="mt-2 tab:mx-16 p-6 tab:p-8 rounded-xl shadow-lg transition-all duration-300">
+
+<form className="flex flex-col gap-6" onSubmit={handleSubmit(onSubmit)}>
+
+{/* Title */}
+<div className="space-y-1">
+<h3 className="text-[24px] pc:text-[32px] font-bold text-center">
+Predict Your College
+</h3>
+<p className="text-[15px] text-gray-500 text-center">
+Enter your details to find the best college matches
+</p>
+</div>
+
+
+{/* STEP HEADER */}
+<div className="space-y-3">
+
+<div className="flex items-center justify-between">
+
+<p className="text-[15px] font-semibold text-gray-700">
+
+Step {step}/3:{" "}
+
+{step === 1 && "Your Exam Details"}
+{step === 2 && "Course & Counselling"}
+{step === 3 && "Quota & Category"}
+
+</p>
+
+{/* dots */}
+<div className="flex gap-2">
+{[1,2,3].map((s)=>(
+<span
+key={s}
+className={`w-2 h-2 rounded-full ${
+step === s ? "bg-gray-600" : "bg-gray-300"
+}`}
+/>
+))}
+</div>
+
+</div>
+
+{/* progress bar */}
+<div className="w-full h-[3px] bg-gray-200 rounded-full overflow-hidden">
+<div
+className="h-full bg-orange-500 transition-all duration-300"
+style={{ width: `${(step/3)*100}%` }}
+/>
+</div>
+
+</div>
+
+
+
+{/* STEP CONTENT */}
+<div className="transition-all duration-300 ease-in-out flex flex-col gap-6">
+
+
+{/* ---------------- STEP 1 ---------------- */}
+
+{step === 1 && (
+<>
+
+<SearchAndSelect
+name="predictor Type"
+label="Predictor Type"
+placeholder="Select Predictor Type"
+value={formData?.courseType}
+onChange={({ name, selectedValue }) => {
+
+onOptionSelected(name, selectedValue, setFormData)
+
+if (selectedValue?.text)
+getCoursesBasedOncourseType(selectedValue?.text)
+
+setFormData((prev) => ({
+...prev,
+courseType: selectedValue,
+courses:undefined,
+counsellingType: undefined,
+}))
+
+const neetBasedExams = [
+"NEET UG",
+"NEET MDS",
+"NEET SS",
+"AIAPGET (Ayurveda)",
+]
+
+if (
+selectedValue?.text &&
+neetBasedExams.includes(selectedValue.text)
+) {
+setRadioOption(["Rank", "Marks"])
+} else {
+setRadioOption(["Rank", "Percentile"])
+}
+
+}}
+loading={isCourseTypeLoading}
+control={control}
+setValue={setValue}
+required
+options={courseTypeList}
+wrapperClass="w-full"
+errors={errors}
+disableSearch={true}
+/>
+
+
+
+<p className="font-medium">What do you have ?</p>
+
+<div className="flex gap-6">
+
+{radioOption.map((option)=>(
+<label
+key={option}
+className="flex items-center gap-2 cursor-pointer"
+>
+
+<input
+type="radio"
+name="rankOrMarks"
+value={option}
+checked={selected === option}
+onChange={()=>setSelected(option)}
+className="accent-orange-500"
+/>
+
+<span className="text-[15px]">{option}</span>
+
+</label>
+))}
+
+</div>
+
+
+
+<Input
+name="rank"
+label={selected || "Rank"}
+type="number"
+placeholder={`Enter your ${selected || "Rank"}`}
+setValue={setValue}
+value={formData?.rank}
+onChange={(e) => {
+onTextFieldChange(e, setFormData)
+clearErrors("rank")
+}}
+control={control}
+errors={errors}
+/>
+
+</>
+)}
+
+
+
+{/* ---------------- STEP 2 ---------------- */}
+
+{step === 2 && (
+<>
+
+<SearchAndSelect
+name="courses"
+label="Course"
+placeholder="Select your Course"
+value={formData?.courses}
+onChange={({ name, selectedValue }) => {
+onOptionSelected(name, selectedValue, setFormData)
+}}
+control={control}
+setValue={setValue}
+options={coursesList}
+loading={isCourseLoading}
+errors={errors}
+wrapperClass="w-full"
+disabled={isEmpty(formData?.courseType?.text)}
+disableSearch={true}
+/>
+
+
+
+<SearchAndSelect
+name="counselling Type"
+label="Counselling Type"
+placeholder="Select Counselling Type"
+value={formData?.counsellingType}
+onChange={({ name, selectedValue }) => {
+
+onOptionSelected(name, selectedValue, setFormData)
+
+setFormData((prev) => ({
+...prev,
+counsellingType: selectedValue,
+state: undefined,
+quotas: undefined,
+categories: undefined,
+}))
+
+setQuotasList([])
+setCategoriesList([])
+
+}}
+control={control}
+setValue={setValue}
+required
+options={filteredCounsellingTypeDataList}
+wrapperClass="w-full"
+errors={errors}
+disableSearch={true}
+/>
+
+
+
+{formData?.counsellingType?.id == 2 && (
+
+<SearchAndSelect
+name="state"
+label="State"
+placeholder="Search and Select"
+value={formData?.state}
+onChange={({ name, selectedValue }) => {
+
+onOptionSelected(name, selectedValue, setFormData)
+
+setFormData((prev) => ({
+...prev,
+state: selectedValue,
+quotas: undefined,
+categories: undefined,
+}))
+
+}}
+loading={isStateLoading}
+control={control}
+setValue={setValue}
+options={stateList}
+wrapperClass="w-full"
+disableSearch={true}
+/>
+
+)}
+
+</>
+)}
+
+
+
+{/* ---------------- STEP 3 ---------------- */}
+
+{step === 3 && (
+<>
+
+{isNeetUG && (
+
+<SearchAndSelect
+name="quotas"
+label="Quota"
+placeholder="Select Quota"
+value={formData?.quotas}
+onChange={({ name, selectedValue }) => {
+onOptionSelected(name, selectedValue, setFormData)
+}}
+control={control}
+setValue={setValue}
+options={quotasList}
+loading={isQuotaLoading}
+wrapperClass="w-full"
+errors={errors}
+disableSearch={true}
+/>
+
+)}
+
+
+
+{isNeetUG && (
+
+<SearchAndSelect
+name="categories"
+label="Category"
+placeholder="Select Category"
+value={formData?.categories}
+onChange={({ name, selectedValue }) => {
+onOptionSelected(name, selectedValue, setFormData)
+}}
+control={control}
+setValue={setValue}
+options={categoriesList}
+loading={isCategoryLaoding}
+wrapperClass="w-full"
+errors={errors}
+disableSearch={true}
+/>
+
+)}
+
+</>
+)}
+
+</div>
+
+
+
+{/* BUTTONS */}
+
+<div className="flex flex-col gap-3 mt-4">
+
+{step < 3 && (
+
+<button
+type="button"
+onClick={nextStep}
+className="w-full bg-gradient-to-r from-orange-400 to-orange-600 text-white font-semibold py-3 rounded-md shadow hover:opacity-95"
+>
+Next Step →
+</button>
+
+)}
+
+
+{step === 3 && (
+
+<button
+type="submit"
+onClick={onSubmit}
+disabled={disableCheck()}
+className="w-full bg-gradient-to-r from-orange-400 to-orange-600 text-white font-semibold py-3 rounded-md shadow hover:opacity-95"
+>
+🔍 Show My Eligible Colleges
+</button>
+
+)}
+
+
+{step > 1 && (
+
+<button
+type="button"
+onClick={prevStep}
+className="text-sm text-gray-500 hover:underline"
+>
+← Go Back
+</button>
+
+)}
+
+</div>
+
+
+</form>
+
+</Card>
+)
 }
 
