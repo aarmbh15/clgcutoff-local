@@ -469,7 +469,8 @@ export function Hero() {
     //   <CollegePredictorTest />
 
     // </section>
-    <section className="grid pc:grid-cols-[45%_55%] gap-6 px-4 ">
+    // <section className="grid pc:grid-cols-[45%_55%] gap-6 px-4 ">
+    <section className="grid pc:grid-cols-[45%_55%] gap-6 px-4 pt-[1px] -mt-[60px]">
 
   {/* LEFT SIDE */}
   <div className="flex items-center justify-center ">

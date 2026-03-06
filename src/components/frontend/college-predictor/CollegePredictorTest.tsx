@@ -391,6 +391,7 @@ export function CollegePredictorTest() {
 
   const isNeetUG = formData?.courseType?.text === "NEET UG"
 
+//below is the OG return 
 //   return (
 //     <Card className="mt-2 tab:mx-16 p-7 tab:p-10">
 //       <form className="flex flex-col gap-6" onSubmit={handleSubmit(onSubmit)}>
@@ -739,11 +740,415 @@ export function CollegePredictorTest() {
 //   )
 
 
+//3 step form
+// const [step, setStep] = React.useState(1)
 
+// const nextStep = () => setStep((prev) => prev + 1)
+// const prevStep = () => setStep((prev) => prev - 1)
+
+// return (
+// <Card className="mt-2 tab:mx-16 p-6 tab:p-8 rounded-xl shadow-lg transition-all duration-300">
+
+// <form className="flex flex-col gap-6" onSubmit={handleSubmit(onSubmit)}>
+
+// {/* Title */}
+// <div className="space-y-1">
+// <h3 className="text-[24px] pc:text-[32px] font-bold text-center">
+// Predict Your College
+// </h3>
+// <p className="text-[15px] text-gray-500 text-center">
+// Enter your details to find the best college matches
+// </p>
+// </div>
+
+
+// {/* STEP HEADER */}
+// <div className="space-y-3">
+
+// <div className="flex items-center justify-between">
+
+// <p className="text-[15px] font-semibold text-gray-700">
+
+// Step {step}/3:{" "}
+
+// {step === 1 && "Your Exam Details"}
+// {step === 2 && "Course & Counselling"}
+// {step === 3 && "Quota & Category"}
+
+// </p>
+
+// {/* dots */}
+// <div className="flex gap-2">
+// {[1,2,3].map((s)=>(
+// <span
+// key={s}
+// className={`w-2 h-2 rounded-full ${
+// step === s ? "bg-gray-600" : "bg-gray-300"
+// }`}
+// />
+// ))}
+// </div>
+
+// </div>
+
+// {/* progress bar */}
+// <div className="w-full h-[3px] bg-gray-200 rounded-full overflow-hidden">
+// <div
+// className="h-full bg-orange-500 transition-all duration-300"
+// style={{ width: `${(step/3)*100}%` }}
+// />
+// </div>
+
+// </div>
+
+
+
+// {/* STEP CONTENT */}
+// <div className="transition-all duration-300 ease-in-out flex flex-col gap-6">
+
+
+// {/* ---------------- STEP 1 ---------------- */}
+
+// {step === 1 && (
+// <>
+
+// <SearchAndSelect
+// name="predictor Type"
+// label="Predictor Type"
+// placeholder="Select Predictor Type"
+// value={formData?.courseType}
+// onChange={({ name, selectedValue }) => {
+
+// onOptionSelected(name, selectedValue, setFormData)
+
+// if (selectedValue?.text)
+// getCoursesBasedOncourseType(selectedValue?.text)
+
+// setFormData((prev) => ({
+// ...prev,
+// courseType: selectedValue,
+// courses:undefined,
+// counsellingType: undefined,
+// }))
+
+// const neetBasedExams = [
+// "NEET UG",
+// "NEET MDS",
+// "NEET SS",
+// "AIAPGET (Ayurveda)",
+// ]
+
+// if (
+// selectedValue?.text &&
+// neetBasedExams.includes(selectedValue.text)
+// ) {
+// setRadioOption(["Rank", "Marks"])
+// } else {
+// setRadioOption(["Rank", "Percentile"])
+// }
+
+// }}
+// loading={isCourseTypeLoading}
+// control={control}
+// setValue={setValue}
+// required
+// options={courseTypeList}
+// wrapperClass="w-full"
+// debounceDelay={0}
+// searchAPI={(text, setOptions) =>
+//   autoComplete(text, courseTypeList, setOptions)
+// }
+// errors={errors}
+// disableSearch={true}
+// />
+
+
+
+// <p className="font-medium">What do you have ?</p>
+
+// <div className="flex gap-6">
+
+// {radioOption.map((option)=>(
+// <label
+// key={option}
+// className="flex items-center gap-2 cursor-pointer"
+// >
+
+// <input
+// type="radio"
+// name="rankOrMarks"
+// value={option}
+// checked={selected === option}
+// onChange={()=>setSelected(option)}
+// className="accent-orange-500"
+// />
+
+// <span className="text-[15px]">{option}</span>
+
+// </label>
+// ))}
+
+// </div>
+
+
+
+// <Input
+// name="rank"
+// label={selected || "Rank"}
+// type="number"
+// placeholder={`Enter your ${selected || "Rank"}`}
+// setValue={setValue}
+// value={formData?.rank}
+// onChange={(e) => {
+// onTextFieldChange(e, setFormData)
+// clearErrors("rank")
+// }}
+// control={control}
+// errors={errors}
+// />
+
+// </>
+// )}
+
+
+
+// {/* ---------------- STEP 2 ---------------- */}
+
+// {step === 2 && (
+// <>
+
+// <SearchAndSelect
+// name="courses"
+// label="Course"
+// placeholder="Select your Course"
+// value={formData?.courses}
+// onChange={({ name, selectedValue }) => {
+// onOptionSelected(name, selectedValue, setFormData)
+// }}
+// control={control}
+// setValue={setValue}
+// options={coursesList}
+// loading={isCourseLoading}
+// errors={errors}
+// wrapperClass="w-full"
+// disabled={isEmpty(formData?.courseType?.text)}
+// disableSearch={true}
+// />
+
+
+
+// <SearchAndSelect
+// name="counselling Type"
+// label="Counselling Type"
+// placeholder="Select Counselling Type"
+// value={formData?.counsellingType}
+// onChange={({ name, selectedValue }) => {
+
+// onOptionSelected(name, selectedValue, setFormData)
+
+// setFormData((prev) => ({
+// ...prev,
+// counsellingType: selectedValue,
+// state: undefined,
+// quotas: undefined,
+// categories: undefined,
+// }))
+
+// setQuotasList([])
+// setCategoriesList([])
+
+// }}
+// control={control}
+// setValue={setValue}
+// required
+// options={filteredCounsellingTypeDataList}
+// wrapperClass="w-full"
+// errors={errors}
+// disableSearch={true}
+// />
+
+
+
+// {formData?.counsellingType?.id == 2 && (
+
+// <SearchAndSelect
+// name="state"
+// label="State"
+// placeholder="Search and Select"
+// value={formData?.state}
+// onChange={({ name, selectedValue }) => {
+
+// onOptionSelected(name, selectedValue, setFormData)
+
+// setFormData((prev) => ({
+// ...prev,
+// state: selectedValue,
+// quotas: undefined,
+// categories: undefined,
+// }))
+
+// }}
+// loading={isStateLoading}
+// control={control}
+// setValue={setValue}
+// options={stateList}
+// wrapperClass="w-full"
+// disableSearch={true}
+// />
+
+// )}
+
+// </>
+// )}
+
+
+
+// {/* ---------------- STEP 3 ---------------- */}
+
+// {step === 3 && (
+// <>
+
+// {isNeetUG && (
+
+// <SearchAndSelect
+// name="quotas"
+// label="Quota"
+// placeholder="Select Quota"
+// value={formData?.quotas}
+// onChange={({ name, selectedValue }) => {
+// onOptionSelected(name, selectedValue, setFormData)
+// }}
+// control={control}
+// setValue={setValue}
+// options={quotasList}
+// loading={isQuotaLoading}
+// wrapperClass="w-full"
+// errors={errors}
+// disableSearch={true}
+// />
+
+// )}
+
+
+
+// {isNeetUG && (
+
+// <SearchAndSelect
+// name="categories"
+// label="Category"
+// placeholder="Select Category"
+// value={formData?.categories}
+// onChange={({ name, selectedValue }) => {
+// onOptionSelected(name, selectedValue, setFormData)
+// }}
+// control={control}
+// setValue={setValue}
+// options={categoriesList}
+// loading={isCategoryLaoding}
+// wrapperClass="w-full"
+// errors={errors}
+// disableSearch={true}
+// />
+
+// )}
+
+// </>
+// )}
+
+// </div>
+
+
+
+// {/* BUTTONS */}
+
+// <div className="flex flex-col gap-3 mt-4">
+
+// {step < 3 && (
+
+// <button
+// type="button"
+// onClick={nextStep}
+// className="w-full bg-gradient-to-r from-orange-400 to-orange-600 text-white font-semibold py-3 rounded-md shadow hover:opacity-95"
+// >
+// Next Step →
+// </button>
+
+// )}
+
+
+// {step === 3 && (
+
+// <button
+// type="submit"
+// onClick={onSubmit}
+// disabled={disableCheck()}
+// className="w-full bg-gradient-to-r from-orange-400 to-orange-600 text-white font-semibold py-3 rounded-md shadow hover:opacity-95"
+// >
+// 🔍 Show My Eligible Colleges
+// </button>
+
+// )}
+
+
+// {step > 1 && (
+
+// <button
+// type="button"
+// onClick={prevStep}
+// className="text-sm text-gray-500 hover:underline"
+// >
+// ← Go Back
+// </button>
+
+// )}
+
+//     {/* Free Limit Text */}
+//     <div className="flex items-center justify-center gap-2 text-gray-400 text-[16px] mt-3">
+//       <Lock size={14} className="text-gray-400" />
+//       <span>
+//         Top 3 Colleges Free |{" "}
+//         <span className=" text-gray-400">Unlock Full List</span>
+//       </span>
+//     </div>
+
+//     {/* Trust Points */}
+//     <div className="flex flex-col gap-3 mt-5 pt-4 border-t border-gray-200">
+
+//       {[
+//         "Updated for 2025 Counselling",
+//         "Based on Official MCC & State Data",
+//         "No Fake Predictions",
+//       ].map((item, i) => (
+//         <div
+//           key={i}
+//           className="flex items-center gap-2 text-[17px] font-semibold text-gray-600"
+//         >
+
+//           {/* Green Circle Check */}
+//           <div className="flex items-center justify-center w-5 h-5 rounded-full border border-green-600">
+//             <Check className="w-3 h-3 text-green-600" strokeWidth={3} />
+//           </div>
+
+//           <span>{item}</span>
+
+//         </div>
+//       ))}
+
+//     </div>
+
+// </div>
+
+
+// </form>
+
+// </Card>
+// )
+
+//2 step form
 const [step, setStep] = React.useState(1)
 
-const nextStep = () => setStep((prev) => prev + 1)
-const prevStep = () => setStep((prev) => prev - 1)
+const nextStep = () => setStep((prev) => Math.min(prev + 1, 2))
+const prevStep = () => setStep((prev) => Math.max(prev - 1, 1))
 
 return (
 <Card className="mt-2 tab:mx-16 p-6 tab:p-8 rounded-xl shadow-lg transition-all duration-300">
@@ -768,17 +1173,16 @@ Enter your details to find the best college matches
 
 <p className="text-[15px] font-semibold text-gray-700">
 
-Step {step}/3:{" "}
+Step {step}/2:{" "}
 
 {step === 1 && "Your Exam Details"}
 {step === 2 && "Course & Counselling"}
-{step === 3 && "Quota & Category"}
 
 </p>
 
 {/* dots */}
 <div className="flex gap-2">
-{[1,2,3].map((s)=>(
+{[1,2].map((s)=>(
 <span
 key={s}
 className={`w-2 h-2 rounded-full ${
@@ -794,7 +1198,7 @@ step === s ? "bg-gray-600" : "bg-gray-300"
 <div className="w-full h-[3px] bg-gray-200 rounded-full overflow-hidden">
 <div
 className="h-full bg-orange-500 transition-all duration-300"
-style={{ width: `${(step/3)*100}%` }}
+style={{ width: `${(step/2)*100}%` }}
 />
 </div>
 
@@ -997,15 +1401,7 @@ disableSearch={true}
 
 )}
 
-</>
-)}
 
-
-
-{/* ---------------- STEP 3 ---------------- */}
-
-{step === 3 && (
-<>
 
 {isNeetUG && (
 
@@ -1062,7 +1458,7 @@ disableSearch={true}
 
 <div className="flex flex-col gap-3 mt-4">
 
-{step < 3 && (
+{step < 2 && (
 
 <button
 type="button"
@@ -1075,7 +1471,7 @@ Next Step →
 )}
 
 
-{step === 3 && (
+{step === 2 && (
 
 <button
 type="submit"
@@ -1101,42 +1497,40 @@ className="text-sm text-gray-500 hover:underline"
 
 )}
 
-    {/* Free Limit Text */}
-    <div className="flex items-center justify-center gap-2 text-gray-400 text-[16px] mt-3">
-      <Lock size={14} className="text-gray-400" />
-      <span>
-        Top 3 Colleges Free |{" "}
-        <span className=" text-gray-400">Unlock Full List</span>
-      </span>
-    </div>
+{/* Free Limit Text */}
+<div className="flex items-center justify-center gap-2 text-gray-400 text-[16px] mt-3">
+<Lock size={14} className="text-gray-400" />
+<span>
+Top 3 Colleges Free |{" "}
+<span className=" text-gray-400">Unlock Full List</span>
+</span>
+</div>
 
-    {/* Trust Points */}
-    <div className="flex flex-col gap-3 mt-5 pt-4 border-t border-gray-200">
+{/* Trust Points */}
+<div className="flex flex-col gap-3 mt-5 pt-4 border-t border-gray-200">
 
-      {[
-        "Updated for 2025 Counselling",
-        "Based on Official MCC & State Data",
-        "No Fake Predictions",
-      ].map((item, i) => (
-        <div
-          key={i}
-          className="flex items-center gap-2 text-[17px] font-semibold text-gray-600"
-        >
+{[
+"Updated for 2025 Counselling",
+"Based on Official MCC & State Data",
+"No Fake Predictions",
+].map((item, i) => (
+<div
+key={i}
+className="flex items-center gap-2 text-[17px] font-semibold text-gray-600"
+>
 
-          {/* Green Circle Check */}
-          <div className="flex items-center justify-center w-5 h-5 rounded-full border border-green-600">
-            <Check className="w-3 h-3 text-green-600" strokeWidth={3} />
-          </div>
+<div className="flex items-center justify-center w-5 h-5 rounded-full border border-green-600">
+<Check className="w-3 h-3 text-green-600" strokeWidth={3} />
+</div>
 
-          <span>{item}</span>
+<span>{item}</span>
 
-        </div>
-      ))}
-
-    </div>
+</div>
+))}
 
 </div>
 
+</div>
 
 </form>
 
