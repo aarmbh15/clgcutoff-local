@@ -18,6 +18,7 @@ import { useRouter } from "next/navigation"
 import { useEffect, useRef, useState } from "react"
 import { useForm } from "react-hook-form"
 import React from "react"
+import { Check, Search, Lock } from "lucide-react"
 
 // const domicileStates: IOption[] = states.slice(1)
 
@@ -852,6 +853,10 @@ setValue={setValue}
 required
 options={courseTypeList}
 wrapperClass="w-full"
+debounceDelay={0}
+searchAPI={(text, setOptions) =>
+  autoComplete(text, courseTypeList, setOptions)
+}
 errors={errors}
 disableSearch={true}
 />
@@ -1095,6 +1100,40 @@ className="text-sm text-gray-500 hover:underline"
 </button>
 
 )}
+
+    {/* Free Limit Text */}
+    <div className="flex items-center justify-center gap-2 text-gray-400 text-[16px] mt-3">
+      <Lock size={14} className="text-gray-400" />
+      <span>
+        Top 3 Colleges Free |{" "}
+        <span className=" text-gray-400">Unlock Full List</span>
+      </span>
+    </div>
+
+    {/* Trust Points */}
+    <div className="flex flex-col gap-3 mt-5 pt-4 border-t border-gray-200">
+
+      {[
+        "Updated for 2025 Counselling",
+        "Based on Official MCC & State Data",
+        "No Fake Predictions",
+      ].map((item, i) => (
+        <div
+          key={i}
+          className="flex items-center gap-2 text-[17px] font-semibold text-gray-600"
+        >
+
+          {/* Green Circle Check */}
+          <div className="flex items-center justify-center w-5 h-5 rounded-full border border-green-600">
+            <Check className="w-3 h-3 text-green-600" strokeWidth={3} />
+          </div>
+
+          <span>{item}</span>
+
+        </div>
+      ))}
+
+    </div>
 
 </div>
 
