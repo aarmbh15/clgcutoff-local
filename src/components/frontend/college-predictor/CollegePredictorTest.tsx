@@ -317,14 +317,14 @@ export function CollegePredictorTest() {
 
   return (
     <Card className="w-full max-w-[750px] p-6 sm:p-8 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] bg-white relative">
-      <form className="flex flex-col gap-6" onSubmit={handleSubmit(onSubmit)}>
+      <form className="flex flex-col gap-6 -mt-2 sm:-mt-0" onSubmit={handleSubmit(onSubmit)}>
         
         {/* Title */}
         <div className="space-y-1.5 mb-2">
-          <h3 className="text-[24px] font-bold text-center">
+          <h3 className="text-[24px] sm:text-[30px] font-bold text-center">
             Predict Your College
           </h3>
-          <p className="text-[14px] sm:text-[15px] text-gray-500 text-center">
+          <p className="text-[13px] sm:text-[15px] text-gray-500 text-center">
             Enter your details to find the best college matches
           </p>
         </div>

@@ -6,7 +6,7 @@ import { CollegePredictorTest } from "../college-predictor/CollegePredictorTest"
 
 export function Hero() {
   return (
-    <section className="grid pc:grid-cols-[50%_50%] gap-6 lg:gap-12 pt-4 pb-12 pc:pt-8 relative w-full -mt-12 sm:-mt-0">
+    <section className="grid pc:grid-cols-[50%_50%] gap-6 lg:gap-12 pt-4 pb-12 pc:pt-8 relative w-full -mt-16 sm:-mt-0">
       {/* LEFT SIDE CONTENT */}
       <div className="flex flex-col justify-center items-start w-full">
         {/* <div className="space-y-6 w-full max-w-[650px]"> */}
@@ -19,7 +19,7 @@ export function Hero() {
 
           {/* Heading */}
           {/* <h1 className="text-[32px] sm:text-[40px] md:text-[46px] lg:text-[50px] font-extrabold leading-[1.15] text-color-table-header tracking-tight"> */}
-          <h1 className="text-[32px] sm:text-[40px] md:text-[46px] lg:text-[50px] font-semibold sm:font-extrabold leading-[1.15] text-color-table-header tracking-tight -mt-10 sm:mt-0">
+          <h1 className="text-[28px] sm:text-[40px] md:text-[46px] lg:text-[50px] font-semibold sm:font-extrabold leading-[1.15] text-[#0A5092] tracking-tight -mt-10 sm:mt-0">
             Check Which Medical{" "}
             <br className="hidden sm:block" />
             Colleges You Can Get
@@ -47,7 +47,7 @@ export function Hero() {
                   className="w-[18px] h-[18px] sm:w-[20px] sm:h-[20px] text-orange-500"
                   strokeWidth={3}
                 />
-                <span className="text-[15px] sm:text-[16px] md:text-[17px] text-gray-700 font-medium">
+                <span className="text-[14px] sm:text-[16px] md:text-[17px] text-gray-700 font-medium">
                   {item}
                 </span>
               </div>
@@ -57,7 +57,7 @@ export function Hero() {
           {/* Trust Strip (Pill 2) - Fading effect from light blue to transparent */}
           <div className="flex items-center gap-2 sm:gap-3 bg-gradient-to-r from-[#e1effe] to-transparent rounded-full pl-4 pr-8 sm:pl-5 sm:pr-10 py-2.5 w-fit">
             <Search className="w-[16px] h-[16px] sm:w-[18px] sm:h-[18px] text-[#244B78]" />
-            <span className="text-[13px] sm:text-[14px] md:text-[15px] font-semibold text-gray-700">
+            <span className="text-[12px] sm:text-[14px] md:text-[15px] font-semibold text-gray-700">
               12,000+ Students Already Checked Their Chances
             </span>
           </div>
