@@ -22,14 +22,14 @@ export function Hero() {
 
           {/* Heading */}
           {/* <h1 className="text-[32px] sm:text-[40px] md:text-[46px] lg:text-[50px] font-extrabold leading-[1.15] text-color-table-header tracking-tight"> */}
-          <h1 className="text-[28px] sm:text-[40px] md:text-[46px] lg:text-[50px] font-semibold sm:font-extrabold leading-[1.15] text-[#0A5092] tracking-tight -mt-10 sm:mt-0">
+          <h1 className="text-[26px] sm:text-[40px] md:text-[46px] lg:text-[50px] font-semibold sm:font-extrabold leading-[1.15] text-[#0A5092] tracking-tight -mt-10 sm:mt-0">
             Check Which Medical{" "}
             <br className="hidden sm:block" />
             Colleges You Can Get
           </h1>
 
           {/* Subheading */}
-          <p className="text-[16px] sm:text-[18px] text-gray-700">
+          <p className="text-[14px] sm:text-[18px] text-gray-700">
             Find Your{" "}
             <span className="font-semibold text-[#f97316]">
               NEET 2026 College
@@ -50,7 +50,7 @@ export function Hero() {
                   className="w-[18px] h-[18px] sm:w-[20px] sm:h-[20px] text-orange-500"
                   strokeWidth={3}
                 />
-                <span className="text-[15px] sm:text-[16px] md:text-[17px] text-gray-700 font-normal">
+                <span className="text-[13px] sm:text-[16px] md:text-[17px] text-gray-700 font-normal">
                   {item}
                 </span>
               </div>
@@ -60,7 +60,7 @@ export function Hero() {
           {/* Trust Strip (Pill 2) - Fading effect from light blue to transparent */}
           <div className="flex items-center gap-2 sm:gap-3 bg-gradient-to-r from-[#e1effe] to-transparent rounded-full pl-4 pr-8 sm:pl-5 sm:pr-10 py-2.5 w-fit">
             <Search className="w-[16px] h-[16px] sm:w-[18px] sm:h-[18px] text-[#244B78]" />
-            <span className="text-[10px] sm:text-[14px] md:text-[15px] font-semibold text-gray-700">
+            <span className="text-[9px] sm:text-[14px] md:text-[15px] font-semibold text-gray-700">
               12,000+ Students<span className="font-normal"> Already Checked Their Chances</span>
             </span>
           </div>
