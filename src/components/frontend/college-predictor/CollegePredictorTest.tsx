@@ -324,13 +324,13 @@ export function CollegePredictorTest() {
           <h3 className="text-[24px] sm:text-[30px] font-bold text-center">
             Predict Your College
           </h3>
-          <p className="text-[13px] sm:text-[15px] text-gray-500 text-center">
+          {/* <p className="text-[13px] sm:text-[15px] text-gray-500 text-center">
             Enter your details to find the best college matches
-          </p>
+          </p> */}
         </div>
 
         {/* STEP HEADER */}
-        <div className="relative border-b border-gray-200 pb-2">
+        <div className="relative border-b border-gray-200 pb-2 -mt-7 sm:-mt-0">
           <div className="flex items-center justify-between">
             <p className="text-[15px] font-medium text-gray-700">
               <span className="text-orange-500 font-bold">Step {step}/2:</span>{" "}
