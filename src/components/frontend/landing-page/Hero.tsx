@@ -16,20 +16,20 @@ export function Hero() {
           
           
           {/* Top Badge (Pill 1) - Fading effect from peach/orange to transparent */}
-          <span className="inline-block bg-gradient-to-r from-[#ffedd5] to-transparent text-[#0A5092] text-[10px] sm:text-sm font-medium pl-4 pr-8 py-[6px] rounded-full">
+          <span className="inline-block bg-gradient-to-r from-[#ffedd5] to-transparent text-[#0A5092] text-xs sm:text-sm font-medium pl-4 pr-8 py-[6px] rounded-full">
             India’s Most Accurate NEET College Predictor
           </span>
 
           {/* Heading */}
           {/* <h1 className="text-[32px] sm:text-[40px] md:text-[46px] lg:text-[50px] font-extrabold leading-[1.15] text-color-table-header tracking-tight"> */}
-          <h1 className="text-[24px] sm:text-[40px] md:text-[46px] lg:text-[50px] font-semibold sm:font-extrabold leading-[1.15] text-[#0A5092] tracking-tight -mt-10 sm:mt-0">
+          <h1 className="text-[26px] sm:text-[40px] md:text-[46px] lg:text-[50px] font-semibold sm:font-extrabold leading-[1.15] text-[#0A5092] tracking-tight -mt-10 sm:mt-0">
             Check Which Medical{" "}
             <br className="hidden sm:block" />
             Colleges You Can Get
           </h1>
 
           {/* Subheading */}
-          <p className="text-[12px] sm:text-[18px] text-gray-700">
+          <p className="text-[14px] sm:text-[18px] text-gray-700">
             Find Your{" "}
             <span className="font-semibold text-[#f97316]">
               NEET 2026 College
@@ -50,7 +50,7 @@ export function Hero() {
                   className="w-[18px] h-[18px] sm:w-[20px] sm:h-[20px] text-orange-500"
                   strokeWidth={3}
                 />
-                <span className="text-[12px] sm:text-[16px] md:text-[17px] text-gray-700 font-normal">
+                <span className="text-[13px] sm:text-[16px] md:text-[17px] text-gray-700 font-normal">
                   {item}
                 </span>
               </div>
