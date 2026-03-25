@@ -6,7 +6,7 @@ import { CollegePredictorTest } from "../college-predictor/CollegePredictorTest"
 
 export function Hero() {
   return (
-    <section className="grid pc:grid-cols-[50%_50%] gap-6 lg:gap-12 pt-4 pb-12 pc:pt-8 relative w-full -mt-16 sm:-mt-0">
+    <section id="predict" className="grid pc:grid-cols-[50%_50%] gap-6 lg:gap-12 pt-4 pb-12 pc:pt-8 relative w-full -mt-16 sm:-mt-0">
       {/* LEFT SIDE CONTENT */}
       {/* <div className="flex flex-col justify-center items-start w-full"> */}
       <div className="flex flex-col justify-center items-start w-full text-left px-5 sm:px-0">
