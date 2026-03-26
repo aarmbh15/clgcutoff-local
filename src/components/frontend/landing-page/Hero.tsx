@@ -38,7 +38,7 @@ export function Hero() {
           </p>
 
           {/* Feature List */}
-          <div className="space-y-1 sm:space-y-3  pt-0 sm:pt-2">
+          {/* <div className="space-y-1 sm:space-y-3  pt-0 sm:pt-2">
             {[
               "Based on official 2025 cutoffs",
               "Covers All India & State Quotas",
@@ -55,7 +55,26 @@ export function Hero() {
                 </span>
               </div>
             ))}
-          </div>
+          </div> */}
+
+          <div className="space-y-1 sm:space-y-3 pt-0 sm:pt-2 font-poppins">
+  {[
+    "Based on official 2025 cutoffs",
+    "Covers All India & State Quotas",
+    "Includes Govt & Private Colleges",
+    "Shows last 2 years trends",
+  ].map((item, i) => (
+    <div key={i} className="flex items-center gap-3">
+      <Check
+        className="w-[18px] h-[18px] sm:w-[20px] sm:h-[20px] text-orange-500"
+        strokeWidth={3}
+      />
+      <span className="text-[13px] sm:text-[16px] md:text-[17px] text-gray-700 font-normal">
+        {item}
+      </span>
+    </div>
+  ))}
+</div>
 
           {/* Trust Strip (Pill 2) - Fading effect from light blue to transparent */}
           <div className="flex items-center gap-2 sm:gap-3 bg-gradient-to-r from-[#e1effe] to-transparent rounded-full pl-4 pr-8 sm:pl-5 sm:pr-10 py-2.5 w-fit">

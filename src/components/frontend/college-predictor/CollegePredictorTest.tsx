@@ -597,7 +597,7 @@ export function CollegePredictorTest() {
           {/* Trust Points */}
           <div className="flex flex-col gap-2.5 mt-2 pt-4 border-t border-gray-100">
             {[
-              "Updated for 2025 Counselling",
+              "Updated for 2026 Counselling",
               "Based on Official MCC & State Data",
               "No Fake Predictions",
             ].map((item, i) => (
