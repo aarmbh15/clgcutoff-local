@@ -3,6 +3,18 @@ import React from "react"
 import Link from "next/link"
 
 import { CollegePredictorTest } from "../college-predictor/CollegePredictorTest"
+import { Poppins, Roboto } from "next/font/google";
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+});
+
+const roboto = Roboto({
+  subsets: ["latin"],
+  weight: ["400", "500", "700"],
+});
+
 
 export function Hero() {
   return (
@@ -57,7 +69,7 @@ export function Hero() {
             ))}
           </div> */}
 
-          <div className="space-y-1 sm:space-y-3 pt-0 sm:pt-2 font-poppins">
+          <div className={`space-y-1 sm:space-y-3 pt-0 sm:pt-2 ${poppins.className}`}>
   {[
     "Based on official 2025 cutoffs",
     "Covers All India & State Quotas",
@@ -69,7 +81,7 @@ export function Hero() {
         className="w-[18px] h-[18px] sm:w-[20px] sm:h-[20px] text-orange-500"
         strokeWidth={3}
       />
-      <span className="text-[13px] sm:text-[16px] md:text-[17px] text-gray-700 font-normal">
+      <span className=" text-[13px] sm:text-[16px] md:text-[17px] text-gray-700 font-normal">
         {item}
       </span>
     </div>
