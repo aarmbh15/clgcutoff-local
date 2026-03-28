@@ -201,7 +201,10 @@ export function CollegePredictorTest() {
           text: item.text,
         }))
 
-        let sorted = mapped
+        // 1. First, sort EVERYTHING alphabetically A-Z
+        let sorted = mapped.sort((a, b) => a.text.localeCompare(b.text))
+
+        // let sorted = mapped
         if (type.toLowerCase() === "neet pg") {
           const priority: Record<string, number> = {
             md: 1,
@@ -209,7 +212,7 @@ export function CollegePredictorTest() {
             diploma: 3,
           }
 
-          sorted = mapped.sort((a, b) => {
+          sorted = sorted.sort((a, b) => {
             const aKey = a.text.toLowerCase()
             const bKey = b.text.toLowerCase()
 
@@ -220,7 +223,14 @@ export function CollegePredictorTest() {
               ? priority[Object.keys(priority).find((k) => bKey.includes(k)) as string]
               : 99
 
-            return aPriority - bPriority
+            // return aPriority - bPriority
+            // If they belong to different priority groups (e.g., MD vs MS), sort by priority
+            if (aPriority !== bPriority) {
+              return aPriority - bPriority
+            }
+            
+            // If they are in the same group (e.g., both are MD courses), sort alphabetically
+            return a.text.localeCompare(b.text)
           })
         }
         
@@ -376,7 +386,7 @@ export function CollegePredictorTest() {
                     counsellingType: undefined,
                   }))
 
-                  const neetBasedExams = ["NEET UG", "NEET MDS", "NEET SS", "AIAPGET (Ayurveda)"]
+                  const neetBasedExams = ["NEET UG","NEET PG","DNB", "NEET MDS", "NEET SS", "AIAPGET (Ayurveda)"]
                   if (selectedValue?.text && neetBasedExams.includes(selectedValue.text)) {
                     setRadioOption(["Rank", "Marks"])
                   } else {

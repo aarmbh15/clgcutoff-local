@@ -501,30 +501,30 @@
 
 "use client"
 import { motion } from "framer-motion"
-import { ShieldCheck, Database, Headphones, Sparkles, TrendingUp, CheckCircle2 } from "lucide-react"
+import { ShieldCheck, Database, Headphones, Sparkles, TrendingUp, CheckCircle2,Users,UserCircle } from "lucide-react"
 import Link from "next/link"
 
 export default function WhyChooseUs() {
   const benefits = [
     {
-      title: "Private & Deemed Specialists",
-      desc: "Deep expertise in Management and NRI quota admissions across India.",
-      icon: <Sparkles className="text-yellow-600" />,
+      title: "Government, Private & Deemed Specialists",
+      desc: "Expert guidance across Government, Private, and Deemed medical colleges, including Management and NRI quota admissions across India.",
+      icon: <Users className="text-yellow-600" />,
     },
     {
-      title: "Direct Official Sourcing",
-      desc: "Data pulled directly from MCC and state authorities—no guesswork involved.",
+      title: "Direct Official Data Sourcing",
+      desc: "All data is sourced directly from MCC and State Counselling Authorities, ensuring accurate and reliable information — no guesswork.",
       icon: <Database className="text-emerald-600" />,
     },
     {
-      title: "Verified Cutoff Accuracy",
-      desc: "Historical data analysis for NEET UG, PG, and MDS with 99% precision.",
+      title: "Verified Closing Rank Cutoff Data",
+      desc: "Access real closing rank cutoff trends for NEET UG, PG, and MDS based on previous years’ official counselling data.",
       icon: <ShieldCheck className="text-yellow-600" />,
     },
     {
-      title: "Personalized Paid Counseling",
-      desc: "One-on-one expert guidance via WhatsApp and Call for critical decisions.",
-      icon: <Headphones className="text-emerald-600" />,
+      title: "Personalized Paid Counselling",
+      desc: "Get one-on-one expert guidance via WhatsApp and call support to make the right admission decisions.",
+      icon: <UserCircle className="text-emerald-600" />,
     },
   ]
 

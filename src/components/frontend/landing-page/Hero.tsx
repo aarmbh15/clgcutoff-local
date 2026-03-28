@@ -20,9 +20,7 @@ export function Hero() {
   return (
     <section id="predict" className="grid pc:grid-cols-[50%_50%] gap-6 lg:gap-12 pt-4 pb-12 pc:pt-8 relative w-full -mt-16 sm:-mt-0">
       {/* LEFT SIDE CONTENT */}
-      {/* <div className="flex flex-col justify-center items-start w-full"> */}
       <div className="flex flex-col justify-center items-start w-full text-left px-5 sm:px-0">
-        {/* <div className="space-y-6 w-full max-w-[650px]"> */}
         <div className="space-y-2 sm:space-y-6 w-full max-w-[650px]">
 
           
@@ -33,7 +31,6 @@ export function Hero() {
           </span>
 
           {/* Heading */}
-          {/* <h1 className="text-[32px] sm:text-[40px] md:text-[46px] lg:text-[50px] font-extrabold leading-[1.15] text-color-table-header tracking-tight"> */}
           <h1 className="text-[26px] sm:text-[40px] md:text-[46px] lg:text-[50px] font-semibold sm:font-extrabold leading-[1.15] text-[#0A5092] tracking-tight -mt-10 sm:mt-0">
             Check Which Medical{" "}
             <br className="hidden sm:block" />
@@ -50,24 +47,6 @@ export function Hero() {
           </p>
 
           {/* Feature List */}
-          {/* <div className="space-y-1 sm:space-y-3  pt-0 sm:pt-2">
-            {[
-              "Based on official 2025 cutoffs",
-              "Covers All India & State Quotas",
-              "Includes Govt & Private Colleges",
-              "Shows last 2 years trends",
-            ].map((item, i) => (
-              <div key={i} className="flex items-center gap-3">
-                <Check
-                  className="w-[18px] h-[18px] sm:w-[20px] sm:h-[20px] text-orange-500"
-                  strokeWidth={3}
-                />
-                <span className="text-[13px] sm:text-[16px] md:text-[17px] text-gray-700 font-normal">
-                  {item}
-                </span>
-              </div>
-            ))}
-          </div> */}
 
           <div className={`space-y-1 sm:space-y-3 pt-0 sm:pt-2 ${poppins.className}`}>
   {[
@@ -104,30 +83,31 @@ export function Hero() {
           {/* Preview Table */}
           <div className="bg-white/80 backdrop-blur-md rounded-xl shadow-[0_4px_20px_rgb(0,0,0,0.05)] border border-white/50 p-5 w-full sm:w-[480px] relative mt-4 pc:mt-8">
             {/* Header */}
-            <div className="grid grid-cols-3 text-[13px] md:text-[14px] font-bold text-gray-500 border-b border-gray-200 pb-3">
-              <span>College Name <span className="text-gray-400 font-normal">↕</span></span>
-              <span className="text-center">Closing Rank</span>
-              <span className="text-center">Fees <span className="text-gray-400 font-normal">↕</span></span>
+            <div className="grid grid-cols-3 text-[11px] md:text-[14px] font-bold text-gray-500 border-b border-gray-200 pb-3">
+              <span className="text-center">College Name <span className="text-gray-400 font-normal">↕</span></span>
+              <span className="text-center">Closing Rank 1</span>
+              <span className="text-center">Closing Rank 2</span>
             </div>
 
             {/* Rows */}
             <div className="space-y-4 mt-4">
               {[
-                { rank: "21,507", fees: "₹92,154" },
-                { rank: "12,683", fees: "₹46,597" },
-                { rank: "12,305", fees: "₹93,273" },
+                {clg:"AIIMS" ,rank: "21,507", fees: "20,154" },
+                {clg:"CMC" ,rank: "12,683", fees: "16,597" },
+                {clg:"MAMC" ,rank: "12,305", fees: "18,273" },
               ].map((row, i) => (
                 <div key={i} className="grid grid-cols-3 items-center">
-                  <div className="flex items-center gap-2">
-                    <div className="w-5 h-5 bg-gray-200 rounded-full blur-[2px]"></div>
-                    <div className="h-[12px] sm:h-[14px] w-[90px] sm:w-[120px] bg-gray-300 rounded blur-[3px]" />
-                  </div>
+                  {/* <div className="flex items-center gap-2"> */}
+                    <span className="text-center text-[14px] sm:text-[15px] text-gray-700 font-medium">
+                      {row.clg}
+                    </span>
+                    {/* <div className="h-[12px] sm:h-[14px] w-[90px] sm:w-[120px] bg-gray-300 rounded blur-[3px]" /> */}
+                  {/* </div> */}
                   <span className="text-center text-[14px] sm:text-[15px] text-gray-700 font-medium">
                     {row.rank}
                   </span>
-                  <span className="flex justify-center items-center gap-1 text-gray-400 text-[13px] sm:text-[14px] blur-[2.5px]">
+                  <span className="text-center text-[14px] sm:text-[15px] text-gray-700 font-medium">
                     {row.fees}
-                    <Lock size={12} className="text-gray-400 blur-none" />
                   </span>
                 </div>
               ))}

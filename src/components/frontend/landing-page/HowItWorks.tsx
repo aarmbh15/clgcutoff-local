@@ -338,16 +338,16 @@
 
 "use client"
 import { motion } from "framer-motion";
-import { ClipboardList, Search, Edit, MapPin, CheckSquare, BarChart3 } from "lucide-react";
+import { ClipboardList, Search, Edit, MapPin, CheckSquare, BarChart3,BookOpen,Globe,Filter } from "lucide-react";
 
 export default function HowItWorks() {
   const steps = [
-    { title: "Select Course", desc: "Choose between UG or PG admissions.", icon: <ClipboardList className="text-yellow-600"/> },
-    { title: "Score Type", desc: "Rank, Marks or Percentile selection.", icon: <Search className="text-emerald-600"/> },
-    { title: "Your Details", desc: "Enter your specific NEET performance.", icon: <Edit className="text-yellow-600"/> },
-    { title: "Domicile", desc: "Filter by your specific state quota.", icon: <MapPin className="text-emerald-600"/> },
-    { title: "Course", desc: "Select MBBS, BDS, MD, or MS.", icon: <CheckSquare className="text-yellow-600"/> },
-    { title: "Predict", desc: "Get your personalized college list.", icon: <BarChart3 className="text-emerald-600"/> },
+    { title: "Select Your Exam", desc: "Choose your exam such as NEET UG, NEET PG, NEET MDS, NEET SS, DNB, or AIAPGET (Ayurveda) to start predicting your college.", icon: <ClipboardList className="text-yellow-600"/> },
+    { title: "Enter Your Rank, Marks or Percentile", desc: "Provide your NEET rank, marks, or percentile to get accurate college predictions based on your performance.", icon: <Search className="text-emerald-600"/> },
+    { title: "Choose Your Course", desc: "Select your preferred course like MBBS, BDS, BAMS, BHMS (NEET UG) or relevant PG courses depending on your exam.", icon: <BookOpen className="text-yellow-600"/> },
+    { title: "Select Counselling Type (AIQ or State Quota)", desc: "Choose between All India Quota (AIQ) or State Counselling to see college options based on your eligibility.", icon: <Globe className="text-emerald-600"/> },
+    { title: "Apply Category & Quota Filters (UG Only)", desc: "For NEET UG, refine results using category, reservation, and quota filters for more accurate predictions.", icon: <Filter className="text-yellow-600"/> },
+    { title: "Get Your Eligible Colleges", desc: "View a list of government, private, and deemed medical colleges based on official closing rank cutoff data (2024 & 2025).", icon: <BarChart3 className="text-emerald-600"/> },
   ];
 
   return (
