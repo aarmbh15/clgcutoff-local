@@ -83,23 +83,27 @@ export function Hero() {
           {/* Preview Table */}
           <div className="bg-white/80 backdrop-blur-md rounded-xl shadow-[0_4px_20px_rgb(0,0,0,0.05)] border border-white/50 p-5 w-full sm:w-[480px] relative mt-4 pc:mt-8">
             {/* Header */}
-            <div className="grid grid-cols-3 text-[11px] md:text-[14px] font-bold text-gray-500 border-b border-gray-200 pb-3">
+            <div className="grid grid-cols-4 text-[11px] md:text-[14px] font-bold text-gray-500 border-b border-gray-200 pb-3">
               <span className="text-center">College Name <span className="text-gray-400 font-normal">↕</span></span>
-              <span className="text-center">Closing Rank 1</span>
-              <span className="text-center">Closing Rank 2</span>
+              <span className="text-center">Course</span>
+              <span className="text-center">Closing Rank/ Marks R1 2025</span>
+              <span className="text-center">Closing Rank/ Marks R1 2024</span>
             </div>
 
             {/* Rows */}
             <div className="space-y-4 mt-4">
               {[
-                {clg:"AIIMS" ,rank: "21,507", fees: "20,154" },
-                {clg:"CMC" ,rank: "12,683", fees: "16,597" },
-                {clg:"MAMC" ,rank: "12,305", fees: "18,273" },
+                {clg:"AIIMS" ,course:"MBBS",rank: "21,507", fees: "20,154" },
+                {clg:"CMC" ,course:"MBBS",rank: "12,683", fees: "16,597" },
+                {clg:"MAMC" ,course:"MBBS",rank: "12,305", fees: "18,273" },
               ].map((row, i) => (
-                <div key={i} className="grid grid-cols-3 items-center">
+                <div key={i} className="grid grid-cols-4 items-center">
                   {/* <div className="flex items-center gap-2"> */}
                     <span className="text-center text-[14px] sm:text-[15px] text-gray-700 font-medium">
                       {row.clg}
+                    </span>
+                    <span className="text-center text-[14px] sm:text-[15px] text-gray-700 font-medium">
+                      {row.course}
                     </span>
                     {/* <div className="h-[12px] sm:h-[14px] w-[90px] sm:w-[120px] bg-gray-300 rounded blur-[3px]" /> */}
                   {/* </div> */}

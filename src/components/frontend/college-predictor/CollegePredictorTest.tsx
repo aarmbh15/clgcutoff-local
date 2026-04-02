@@ -372,7 +372,7 @@ export function CollegePredictorTest() {
               <SearchAndSelect
                 name="predictor Type"
                 label=""
-                placeholder="Select Predictor Type"
+                placeholder="Select Exam Type"
                 value={formData?.courseType}
                 onChange={({ name, selectedValue }) => {
                   onOptionSelected(name, selectedValue, setFormData)

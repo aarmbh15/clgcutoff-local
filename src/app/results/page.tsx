@@ -257,7 +257,9 @@ try {
 
     // console.log(dataRes)
     if (dataRes?.success) {
-      setPaid(dataRes?.payload?.isPurchase || false)
+      // setPaid(dataRes?.payload?.isPurchase || false)
+    //above is og below one is changed
+      setPaid(true)
       setTableData(dataRes?.payload)
       // console.log(dataRes.payload)
     }

@@ -130,61 +130,128 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error }, { status: 400 })
   }
 
+  // const filteredData = data.filter((item, index) => {
+  //   if (rank <= 0) return true
+
+  //   if (rankType === "RANK") {
+  //     // Prefer current round data first
+  //     const currentFields = [
+  //       item.closingRankR1,
+  //       item.closingRankR2,
+  //       item.closingRankR3,
+  //       item.strayRound,
+  //       item.lastStrayRound,
+  //     ].filter((mark) => mark != null && mark !== "")
+
+  //     const prevFields = [
+  //       item.prevClosingRankR1,
+  //       item.prevClosingRankR2,
+  //       item.prevClosingRankR3,
+  //       item.prevStrayRound,
+  //       item.prevLastStrayRound,
+  //     ].filter((mark) => mark != null && mark !== "")
+
+  //     const fieldsToUse = currentFields.length > 0 ? currentFields : prevFields
+  //     if (fieldsToUse.length === 0) return false
+
+  //     return fieldsToUse.some((mark) => {
+  //       const cleanMarks = cleanMark(mark)
+  //       return cleanMarks > 0 && rank <= cleanMarks
+  //     })
+  //   } else {
+  //     // Marks case
+  //     const currentFields = [
+  //       item.CRR1,
+  //       item.CRR2,
+  //       item.CRR3,
+  //       item.SRR,
+  //       item.lSRR,
+  //     ].filter((mark) => mark != null && mark !== "")
+
+  //     const prevFields = [
+  //       item.prevCRR1,
+  //       item.prevCRR2,
+  //       item.prevCRR3,
+  //       item.prevSRR,
+  //       item.prevlSRR,
+  //     ].filter((mark) => mark != null && mark !== "")
+
+  //     const fieldsToUse = currentFields.length > 0 ? currentFields : prevFields
+  //     if (fieldsToUse.length === 0) return false
+
+  //     return fieldsToUse.some((mark) => {
+  //       const cleanMarks = cleanMark(mark)
+  //       return cleanMarks > 0 && rank >= cleanMarks
+  //     })
+  //   }
+  // })
+
+  //below one is new updated
   const filteredData = data.filter((item, index) => {
-    if (rank <= 0) return true
+  if (rank <= 0) return true
 
-    if (rankType === "RANK") {
-      // Prefer current round data first
-      const currentFields = [
-        item.closingRankR1,
-        item.closingRankR2,
-        item.closingRankR3,
-        item.strayRound,
-        item.lastStrayRound,
-      ].filter((mark) => mark != null && mark !== "")
+  if (rankType === "RANK") {
+  const currentFields = [
+    item.closingRankR1,
+    item.closingRankR2,
+    item.closingRankR3,
+    item.strayRound,
+    item.lastStrayRound,
+  ].filter((val) => val != null && val !== "")
 
-      const prevFields = [
-        item.prevClosingRankR1,
-        item.prevClosingRankR2,
-        item.prevClosingRankR3,
-        item.prevStrayRound,
-        item.prevLastStrayRound,
-      ].filter((mark) => mark != null && mark !== "")
+  const prevFields = [
+    item.prevClosingRankR1,
+    item.prevClosingRankR2,
+    item.prevClosingRankR3,
+    item.prevStrayRound,
+    item.prevLastStrayRound,
+  ].filter((val) => val != null && val !== "")
 
-      const fieldsToUse = currentFields.length > 0 ? currentFields : prevFields
-      if (fieldsToUse.length === 0) return false
+  const fieldsToUse =
+    currentFields.length > 0 ? currentFields : prevFields
 
-      return fieldsToUse.some((mark) => {
-        const cleanMarks = cleanMark(mark)
-        return cleanMarks > 0 && rank <= cleanMarks
-      })
-    } else {
-      // Marks case
-      const currentFields = [
-        item.CRR1,
-        item.CRR2,
-        item.CRR3,
-        item.SRR,
-        item.lSRR,
-      ].filter((mark) => mark != null && mark !== "")
+  if (fieldsToUse.length === 0) return false
 
-      const prevFields = [
-        item.prevCRR1,
-        item.prevCRR2,
-        item.prevCRR3,
-        item.prevSRR,
-        item.prevlSRR,
-      ].filter((mark) => mark != null && mark !== "")
+  // ✅ FIXED
+  const validRanks = fieldsToUse
+    .map((val) => cleanRank(val))
+    .filter((r) => r !== Infinity)
 
-      const fieldsToUse = currentFields.length > 0 ? currentFields : prevFields
-      if (fieldsToUse.length === 0) return false
+  if (validRanks.length === 0) return false
 
-      return fieldsToUse.some((mark) => {
-        const cleanMarks = cleanMark(mark)
-        return cleanMarks > 0 && rank >= cleanMarks
-      })
-    }
-  })
+  const bestRank = Math.min(...validRanks)
+
+  return rank <= bestRank
+}
+  else {
+    // ✅ KEEP MARKS LOGIC SAME
+    const currentFields = [
+      item.CRR1,
+      item.CRR2,
+      item.CRR3,
+      item.SRR,
+      item.lSRR,
+    ].filter((mark) => mark != null && mark !== "")
+
+    const prevFields = [
+      item.prevCRR1,
+      item.prevCRR2,
+      item.prevCRR3,
+      item.prevSRR,
+      item.prevlSRR,
+    ].filter((mark) => mark != null && mark !== "")
+
+    const fieldsToUse =
+      currentFields.length > 0 ? currentFields : prevFields
+
+    if (fieldsToUse.length === 0) return false
+
+    return fieldsToUse.some((mark) => {
+      const cleanMarks = cleanMark(mark)
+      return cleanMarks > 0 && rank >= cleanMarks
+    })
+  }
+})
 
   const sortedData = [...filteredData].sort((a, b) => {
     if (rankType === "RANK") {

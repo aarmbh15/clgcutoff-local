@@ -43,6 +43,7 @@ export default function ManageDataPage() {
   const [seletectedState, setSeletectedState] = useState<IOption | undefined>()
   const [rowData, setRowData] = useState<any>([])
   const [searchInput, setSearchInput] = useState("")
+  const [filteredStateList, setFilteredStateList] = useState<IOption[]>([])
 
   // const paginationRef = useRef<PaginationHandle>(null)
 
@@ -104,6 +105,7 @@ export default function ManageDataPage() {
             ...(statesRes?.payload?.data || []),
           ]
           setStateList(states)
+          setFilteredStateList(states)
         }
         if (coursesRes?.success) {
           const courses =
@@ -280,13 +282,28 @@ setCurrentPage(1)
             name="state"
             label="Select Table"
             placeholder="Search and Select"
-            options={stateList}
+            // options={stateList}
+            options={filteredStateList}
             control={control}
             setValue={setValue}
             required
-            searchAPI={(text, setOptions) =>
-              autoComplete(text, stateList, setOptions)
-            }
+            // searchAPI={(text, setOptions) =>
+            //   autoComplete(text, stateList, setOptions)
+            // }
+  searchAPI={(text, setOptions) => {
+  if (!text) {
+    setFilteredStateList(stateList)
+    setOptions(stateList)
+    return
+  }
+
+  const filtered = stateList.filter((item) =>
+    item.text.toLowerCase().includes(text.toLowerCase())
+  )
+
+  setFilteredStateList(filtered) // 🔥 update parent
+  setOptions(filtered)           // 🔥 update child
+}}
             defaultOption={{
               id: "",
               text: "",
