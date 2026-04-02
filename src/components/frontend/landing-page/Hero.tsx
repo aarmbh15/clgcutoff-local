@@ -93,9 +93,9 @@ export function Hero() {
             {/* Rows */}
             <div className="space-y-4 mt-4">
               {[
-                {clg:"AIIMS" ,course:"MBBS",rank: "21,507", fees: "20,154" },
-                {clg:"CMC" ,course:"MBBS",rank: "12,683", fees: "16,597" },
-                {clg:"MAMC" ,course:"MBBS",rank: "12,305", fees: "18,273" },
+                {clg:"AIIMS, Delhi" ,course:"MBBS",rank: "57", fees: "57" },
+                {clg:"JIPMER, Puducherry" ,course:"MBBS",rank: "277", fees: "277" },
+                {clg:"GMC, Chandigarh" ,course:"MBBS",rank: "544", fees: "607" },
               ].map((row, i) => (
                 <div key={i} className="grid grid-cols-4 items-center">
                   {/* <div className="flex items-center gap-2"> */}

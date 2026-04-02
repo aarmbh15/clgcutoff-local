@@ -343,7 +343,7 @@ import { ClipboardList, Search, Edit, MapPin, CheckSquare, BarChart3,BookOpen,Gl
 export default function HowItWorks() {
   const steps = [
     { title: "Select Your Exam", desc: "Choose your exam such as NEET UG, NEET PG, NEET MDS, NEET SS, DNB, or AIAPGET (Ayurveda) to start predicting your college.", icon: <ClipboardList className="text-yellow-600"/> },
-    { title: "Enter Your Rank, Marks or Percentile", desc: "Provide your NEET rank, marks, or percentile to get accurate college predictions based on your performance.", icon: <Search className="text-emerald-600"/> },
+    { title: "Enter Your Rank or Marks", desc: "Provide your NEET rank or marks to get accurate college predictions based on your performance.", icon: <Search className="text-emerald-600"/> },
     { title: "Choose Your Course", desc: "Select your preferred course like MBBS, BDS, BAMS, BHMS (NEET UG) or relevant PG courses depending on your exam.", icon: <BookOpen className="text-yellow-600"/> },
     { title: "Select Counselling Type (AIQ or State Quota)", desc: "Choose between All India Quota (AIQ) or State Counselling to see college options based on your eligibility.", icon: <Globe className="text-emerald-600"/> },
     { title: "Apply Category & Quota Filters (UG Only)", desc: "For NEET UG, refine results using category, reservation, and quota filters for more accurate predictions.", icon: <Filter className="text-yellow-600"/> },
