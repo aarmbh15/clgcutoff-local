@@ -81,7 +81,7 @@ export function Hero() {
           </div>
 
           {/* Preview Table */}
-          <div className="bg-white/80 backdrop-blur-md rounded-xl shadow-[0_4px_20px_rgb(0,0,0,0.05)] border border-white/50 p-5 w-full sm:w-[480px] relative mt-4 pc:mt-8">
+          <div className="bg-white/80 backdrop-blur-md rounded-xl shadow-[0_4px_20px_rgb(0,0,0,0.05)] border border-white/50 p-5 w-full sm:w-[600px] relative mt-4 pc:mt-8">
             {/* Header */}
             <div className="grid grid-cols-4 text-[11px] md:text-[14px] font-bold text-gray-500 border-b border-gray-200 pb-3">
               <span className="text-center">College Name <span className="text-gray-400 font-normal">↕</span></span>
